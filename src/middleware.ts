@@ -7,7 +7,10 @@ import { Role } from '@/types';
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const secret = process.env.NEXTAUTH_SECRET || 'ptit-ltwnc-secret-super-key-2026-very-secure';
-  const token = await getToken({ req, secret });
+  // Thử cả cookie __Secure- (HTTPS/Vercel) và cookie thường (localhost) để tránh vòng lặp redirect
+  const token =
+    (await getToken({ req, secret, secureCookie: true })) ??
+    (await getToken({ req, secret, secureCookie: false }));
 
   const isAuth = !!token;
   const userRole = (token?.role as Role) || 'guest';
