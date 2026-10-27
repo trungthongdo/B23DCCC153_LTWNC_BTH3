@@ -104,7 +104,10 @@ export default function AuthHeader() {
       )}
 
       <button
-        onClick={() => signOut({ callbackUrl: '/' })}
+        onClick={async () => {
+          await signOut({ redirect: false });
+          window.location.href = '/';
+        }}
         id="header-logout-btn"
         className="btn btn-ghost"
         style={{ padding: '5px 8px', fontSize: '0.8125rem' }}

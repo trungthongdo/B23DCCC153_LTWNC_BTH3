@@ -24,7 +24,8 @@
     "priority": "high",
     "type": "assignment",
     "completedBy": [
-      "1"
+      "1",
+      "2"
     ],
     "createdAt": "2026-10-20T08:00:00.000Z",
     "createdBy": "admin@ptit.edu.vn"
@@ -38,7 +39,9 @@
     "dueDate": "2026-10-31T23:59:00.000Z",
     "priority": "medium",
     "type": "quiz",
-    "completedBy": [],
+    "completedBy": [
+      "2"
+    ],
     "createdAt": "2026-10-22T08:00:00.000Z",
     "createdBy": "admin@ptit.edu.vn"
   },
@@ -51,7 +54,9 @@
     "dueDate": "2026-11-15T23:59:00.000Z",
     "priority": "high",
     "type": "project",
-    "completedBy": [],
+    "completedBy": [
+      "2"
+    ],
     "createdAt": "2026-10-15T09:00:00.000Z",
     "createdBy": "admin@ptit.edu.vn"
   },
@@ -144,7 +149,9 @@
     "dueDate": "2026-11-06T23:59:00.000Z",
     "priority": "medium",
     "type": "assignment",
-    "completedBy": [],
+    "completedBy": [
+      "2"
+    ],
     "createdAt": "2026-10-20T10:00:00.000Z",
     "createdBy": "admin@ptit.edu.vn"
   },

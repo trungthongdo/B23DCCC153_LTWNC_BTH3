@@ -76,6 +76,15 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith('/')) return url;
+      try {
+        const parsed = new URL(url);
+        return parsed.pathname + parsed.search;
+      } catch {
+        return url;
+      }
+    },
   },
   secret: process.env.NEXTAUTH_SECRET || 'ptit-ltwnc-secret-super-key-2026-very-secure',
 };
