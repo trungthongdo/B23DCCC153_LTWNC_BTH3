@@ -1,0 +1,164 @@
+[
+  {
+    "id": "1",
+    "title": "Báo cáo BTTH 2: Next.js CSR vs SSR",
+    "subjectSlug": "lap-trinh-web-nang-cao",
+    "subjectName": "Lập trình Web Nâng cao",
+    "description": "Nộp file PDF báo cáo so sánh chi tiết hiệu năng TTFB, FCP giữa Client-Side Rendering và Server-Side Rendering. Kèm link repository GitHub bài lab.",
+    "dueDate": "2026-10-20T23:59:00.000Z",
+    "priority": "medium",
+    "type": "assignment",
+    "completedBy": [
+      "2"
+    ],
+    "createdAt": "2026-10-10T08:00:00.000Z",
+    "createdBy": "admin@ptit.edu.vn"
+  },
+  {
+    "id": "2",
+    "title": "Nộp bài tập thực hành 3: Class Deadline Hub",
+    "subjectSlug": "lap-trinh-web-nang-cao",
+    "subjectName": "Lập trình Web Nâng cao",
+    "description": "Hoàn thiện cổng web Class Deadline Hub với đầy đủ Rendering strategies (SSG, ISR, SSR), Authentication NextAuth, Middleware phân quyền can(role, action) và tối ưu SEO Lighthouse.",
+    "dueDate": "2026-10-29T23:59:00.000Z",
+    "priority": "high",
+    "type": "assignment",
+    "completedBy": [
+      "1"
+    ],
+    "createdAt": "2026-10-20T08:00:00.000Z",
+    "createdBy": "admin@ptit.edu.vn"
+  },
+  {
+    "id": "3",
+    "title": "Kiểm tra trắc nghiệm Buổi 8: Security & SEO",
+    "subjectSlug": "lap-trinh-web-nang-cao",
+    "subjectName": "Lập trình Web Nâng cao",
+    "description": "Làm bài kiểm tra trực tuyến 30 câu trắc nghiệm trên hệ thống LMS PTIT về cơ chế bảo mật CSRF, XSS trong Next.js và chiến lược tối ưu OpenGraph, JSON-LD.",
+    "dueDate": "2026-10-31T23:59:00.000Z",
+    "priority": "medium",
+    "type": "quiz",
+    "completedBy": [],
+    "createdAt": "2026-10-22T08:00:00.000Z",
+    "createdBy": "admin@ptit.edu.vn"
+  },
+  {
+    "id": "4",
+    "title": "Đồ án giữa kỳ: Xây dựng E-Commerce Fullstack",
+    "subjectSlug": "lap-trinh-web-nang-cao",
+    "subjectName": "Lập trình Web Nâng cao",
+    "description": "Nộp mã nguồn và tài liệu thiết kế đồ án thương mại điện tử sử dụng Next.js App Router, Prisma ORM, PostgreSQL và cổng thanh toán VNPay Sandbox.",
+    "dueDate": "2026-11-15T23:59:00.000Z",
+    "priority": "high",
+    "type": "project",
+    "completedBy": [],
+    "createdAt": "2026-10-15T09:00:00.000Z",
+    "createdBy": "admin@ptit.edu.vn"
+  },
+  {
+    "id": "5",
+    "title": "Lab 3: Khai thác và Vá lỗ hổng SQL Injection",
+    "subjectSlug": "an-toan-bao-mat",
+    "subjectName": "An toàn & Bảo mật HTTT",
+    "description": "Thực hiện tấn công SQL Injection trên môi trường máy ảo DVWA (Damn Vulnerable Web App) ở mức Medium/High và viết script Python phòng thủ parameterized queries.",
+    "dueDate": "2026-11-03T23:59:00.000Z",
+    "priority": "high",
+    "type": "assignment",
+    "completedBy": [
+      "2"
+    ],
+    "createdAt": "2026-10-21T08:00:00.000Z",
+    "createdBy": "admin@ptit.edu.vn"
+  },
+  {
+    "id": "6",
+    "title": "Báo cáo chuyên đề: Giao thức mã hóa RSA & ECC",
+    "subjectSlug": "an-toan-bao-mat",
+    "subjectName": "An toàn & Bảo mật HTTT",
+    "description": "Thuyết trình và demo thuật toán mã hóa công khai RSA 2048-bit kết hợp chữ ký số điện tử ECDSA trong hệ thống truyền tin bảo mật ngân hàng.",
+    "dueDate": "2026-11-12T23:59:00.000Z",
+    "priority": "medium",
+    "type": "assignment",
+    "completedBy": [],
+    "createdAt": "2026-10-18T10:00:00.000Z",
+    "createdBy": "admin@ptit.edu.vn"
+  },
+  {
+    "id": "7",
+    "title": "Thi thực hành giữa kỳ: Pentest Web Application",
+    "subjectSlug": "an-toan-bao-mat",
+    "subjectName": "An toàn & Bảo mật HTTT",
+    "description": "Thi thực hành trực tiếp tại phòng máy Lab A2: Thu thập thông tin, rà quét cổng mạng Nmap, khai thác lỗ hổng CSRF/SSRF và chiếm quyền điều khiển shell.",
+    "dueDate": "2026-11-22T23:59:00.000Z",
+    "priority": "high",
+    "type": "exam",
+    "completedBy": [],
+    "createdAt": "2026-10-25T14:00:00.000Z",
+    "createdBy": "admin@ptit.edu.vn"
+  },
+  {
+    "id": "8",
+    "title": "Bài tập lớn: Áp dụng Design Patterns GoF",
+    "subjectSlug": "kien-truc-thiet-ke-phan-mem",
+    "subjectName": "Kiến trúc & Thiết kế Phần mềm",
+    "description": "Xây dựng hệ thống quản lý đơn hàng sử dụng tối thiểu 4 mẫu thiết kế: Factory Method, Observer, Strategy và Decorator. Vẽ biểu đồ lớp UML chi tiết.",
+    "dueDate": "2026-11-08T23:59:00.000Z",
+    "priority": "medium",
+    "type": "assignment",
+    "completedBy": [],
+    "createdAt": "2026-10-19T07:30:00.000Z",
+    "createdBy": "admin@ptit.edu.vn"
+  },
+  {
+    "id": "9",
+    "title": "Thiết kế kiến trúc hệ thống Microservices",
+    "subjectSlug": "kien-truc-thiet-ke-phan-mem",
+    "subjectName": "Kiến trúc & Thiết kế Phần mềm",
+    "description": "Thiết kế kiến trúc hệ thống đặt xe công nghệ (Ride-Hailing) phân tán gồm API Gateway, Service Discovery, Event Bus Kafka và cơ chế phân tán Saga Transaction.",
+    "dueDate": "2026-11-28T23:59:00.000Z",
+    "priority": "high",
+    "type": "project",
+    "completedBy": [],
+    "createdAt": "2026-10-23T11:00:00.000Z",
+    "createdBy": "admin@ptit.edu.vn"
+  },
+  {
+    "id": "10",
+    "title": "Đánh giá mô hình kiến trúc Domain-Driven Design",
+    "subjectSlug": "kien-truc-thiet-ke-phan-mem",
+    "subjectName": "Kiến trúc & Thiết kế Phần mềm",
+    "description": "Phân tích Bounded Contexts, Aggregate Roots và Domain Events cho phân hệ thanh toán học phí đại học PTIT. Trình bày bằng slide và tài liệu SRS.",
+    "dueDate": "2026-12-05T23:59:00.000Z",
+    "priority": "low",
+    "type": "assignment",
+    "completedBy": [],
+    "createdAt": "2026-10-24T16:00:00.000Z",
+    "createdBy": "admin@ptit.edu.vn"
+  },
+  {
+    "id": "11",
+    "title": "Bài tập 2: Huấn luyện mô hình Phân loại ảnh CNN",
+    "subjectSlug": "tri-tue-nhan-tao",
+    "subjectName": "Trí tuệ Nhân tạo & Học máy",
+    "description": "Huấn luyện mạng ResNet50 phân loại bệnh trên lá cây nông nghiệp đạt độ chính xác Accuracy > 92%. Nộp file Jupyter Notebook Google Colab kèm log huấn luyện.",
+    "dueDate": "2026-11-06T23:59:00.000Z",
+    "priority": "medium",
+    "type": "assignment",
+    "completedBy": [],
+    "createdAt": "2026-10-20T10:00:00.000Z",
+    "createdBy": "admin@ptit.edu.vn"
+  },
+  {
+    "id": "12",
+    "title": "Dự án cuối khóa: Chatbot hỗ trợ học tập với RAG",
+    "subjectSlug": "tri-tue-nhan-tao",
+    "subjectName": "Trí tuệ Nhân tạo & Học máy",
+    "description": "Xây dựng hệ thống trợ lý ảo sinh viên PTIT sử dụng kỹ thuật Retrieval-Augmented Generation (RAG), Vector Database Qdrant và mô hình mã nguồn mở Llama-3.",
+    "dueDate": "2026-12-20T23:59:00.000Z",
+    "priority": "high",
+    "type": "project",
+    "completedBy": [],
+    "createdAt": "2026-10-26T09:00:00.000Z",
+    "createdBy": "admin@ptit.edu.vn"
+  }
+]

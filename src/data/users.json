@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1",
+    "name": "Nguyễn Văn An (Lớp Trưởng)",
+    "email": "admin@ptit.edu.vn",
+    "password": "admin123",
+    "role": "admin",
+    "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=admin"
+  },
+  {
+    "id": "2",
+    "name": "Trần Thị Bình (Sinh Viên)",
+    "email": "sv@ptit.edu.vn",
+    "password": "sv123456",
+    "role": "user",
+    "avatar": "https://api.dicebear.com/7.x/bottts/svg?seed=student"
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "slug": "lap-trinh-web-nang-cao",
+    "name": "Lập trình Web Nâng cao",
+    "code": "INT1416",
+    "credits": 3,
+    "lecturer": "TS. Nguyễn Hoàng Anh",
+    "email": "anhnh@ptit.edu.vn",
+    "description": "Nghiên cứu chuyên sâu về kiến trúc Fullstack hiện đại, Next.js App Router, React Server Components, tối ưu hóa Rendering (SSG, ISR, SSR), Authentication & Authorization, SEO và Microservices.",
+    "color": "#6366f1",
+    "bgColor": "rgba(99, 102, 241, 0.15)",
+    "borderColor": "rgba(99, 102, 241, 0.4)",
+    "icon": "Globe"
+  },
+  {
+    "slug": "an-toan-bao-mat",
+    "name": "An toàn & Bảo mật HTTT",
+    "code": "INT1411",
+    "credits": 3,
+    "lecturer": "TS. Lê Quang Dũng",
+    "email": "dunglq@ptit.edu.vn",
+    "description": "Các kỹ thuật mã hóa dữ liệu, xác thực đa yếu tố, phòng thủ tấn công lỗ hổng bảo mật web (OWASP Top 10, XSS, CSRF, SQLi), an ninh mạng và kiến trúc bảo mật Zero Trust.",
+    "color": "#ef4444",
+    "bgColor": "rgba(239, 68, 68, 0.15)",
+    "borderColor": "rgba(239, 68, 68, 0.4)",
+    "icon": "ShieldCheck"
+  },
+  {
+    "slug": "kien-truc-thiet-ke-phan-mem",
+    "name": "Kiến trúc & Thiết kế Phần mềm",
+    "code": "INT1408",
+    "credits": 3,
+    "lecturer": "PGS. TS. Trần Minh Tuấn",
+    "email": "tuantm@ptit.edu.vn",
+    "description": "Nguyên lý thiết kế SOLID, Design Patterns GoF, kiến trúc Clean Architecture, Hexagonal, Domain-Driven Design (DDD) và thiết kế hệ thống phân tán quy mô lớn.",
+    "color": "#10b981",
+    "bgColor": "rgba(16, 185, 129, 0.15)",
+    "borderColor": "rgba(16, 185, 129, 0.4)",
+    "icon": "Layers"
+  },
+  {
+    "slug": "tri-tue-nhan-tao",
+    "name": "Trí tuệ Nhân tạo & Học máy",
+    "code": "INT1432",
+    "credits": 3,
+    "lecturer": "TS. Phạm Văn Nam",
+    "email": "nampv@ptit.edu.vn",
+    "description": "Nền tảng Machine Learning, mạng nơ-ron tích chập (CNN), xử lý ngôn ngữ tự nhiên (NLP) với Transformer, xây dựng và triển khai mô hình học máy vào bài toán thực tế.",
+    "color": "#f59e0b",
+    "bgColor": "rgba(245, 158, 11, 0.15)",
+    "borderColor": "rgba(245, 158, 11, 0.4)",
+    "icon": "Cpu"
+  }
+]
