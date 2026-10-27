@@ -80,25 +80,25 @@ npm start
 
 ```text
 Route (app)                                  Size     First Load JS
-┌ ○ /                                        143 B           108 kB
+┌ ○ /                                        3.63 kB         108 kB
 ├ ○ /_not-found                              142 B          87.3 kB
 ├ ○ /403                                     188 B          95.4 kB
-├ ƒ /admin                                   3.71 kB        98.9 kB
+├ ƒ /admin                                   3.73 kB        98.9 kB
 ├ ƒ /api/auth/[...nextauth]                  0 B                0 B
-├ ƒ /dashboard                               141 B           108 kB
-├ ƒ /dashboard/completed                     142 B           108 kB
+├ ƒ /dashboard                               2.74 kB         108 kB
+├ ƒ /dashboard/completed                     2.74 kB         108 kB
 ├ ƒ /dashboard/profile                       1.52 kB        88.7 kB
-├ ○ /deadlines                               5.7 kB          111 kB
-├ ● /deadlines/[id]                          142 B           108 kB
+├ ○ /deadlines                               5.61 kB         110 kB
+├ ● /deadlines/[id]                          2.74 kB         108 kB
 ├   ├ /deadlines/1
 ├   ├ /deadlines/2
 ├   ├ /deadlines/3
 ├   └ [+9 more paths]
-├ ƒ /deadlines/[id]/opengraph-image          0 B                0 B
-├ ○ /login                                   4.49 kB         101 kB
+├ ƒ /deadlines/[id]/opengraph-image-104vc5   0 B                0 B
+├ ƒ /login                                   4.47 kB         101 kB
 ├ ○ /robots.txt                              0 B                0 B
 ├ ○ /sitemap.xml                             0 B                0 B
-└ ● /subjects/[slug]                         143 B           108 kB
+└ ● /subjects/[slug]                         2.74 kB         108 kB
     ├ /subjects/lap-trinh-web-nang-cao
     ├ /subjects/an-toan-bao-mat
     ├ /subjects/kien-truc-thiet-ke-phan-mem
@@ -238,8 +238,8 @@ Việc chỉ dựa vào duy nhất Middleware ở tầng Edge/Routing để bả
 Dự án đã triển khai đầy đủ các tiêu chí điểm cộng:
 
 1. **Unit Test Jest cho ma trận phân quyền `can(role, action)`:**
-   - Bộ test gồm **15 test cases** hoàn chỉnh bao phủ toàn bộ ma trận (Guest, User, Admin) kết hợp các trường hợp biên (`null`, `undefined`, role không hợp lệ).
-   - Kiểm tra bằng lệnh: `npm test`. Kết quả: `15 passed, 15 total`.
+   - Bộ test gồm **16 test cases** hoàn chỉnh bao phủ toàn bộ ma trận (Guest, User, Admin) kết hợp các trường hợp biên (`null`, `undefined`, role không hợp lệ, action không hợp lệ).
+   - Kiểm tra bằng lệnh: `npm test`. Kết quả: `16 passed, 16 total` (100% Statement, Branch, Function, Line Coverage).
 2. **Đăng nhập GitHub (OAuth):**
    - Đã tích hợp `GithubProvider` trong NextAuth tại `src/lib/auth.ts`.
    - Có nút đăng nhập bằng GitHub trên giao diện `/login`. Khi cấu hình `GITHUB_ID` và `GITHUB_SECRET` trong `.env.local`, người dùng có thể đăng nhập 1-click qua GitHub.
