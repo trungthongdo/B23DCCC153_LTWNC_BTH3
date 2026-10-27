@@ -77,13 +77,13 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async redirect({ url, baseUrl }) {
-      if (url.startsWith('/')) return url;
+      // Allows relative callback URLs by prefixing baseUrl
+      if (url.startsWith('/')) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
       try {
-        const parsed = new URL(url);
-        return parsed.pathname + parsed.search;
-      } catch {
-        return url;
-      }
+        if (new URL(url).origin === baseUrl) return url;
+      } catch {}
+      return baseUrl;
     },
   },
   secret: process.env.NEXTAUTH_SECRET || 'ptit-ltwnc-secret-super-key-2026-very-secure',

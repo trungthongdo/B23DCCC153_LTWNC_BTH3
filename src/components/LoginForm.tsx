@@ -15,63 +15,47 @@ export default function LoginForm() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const processLogin = async (loginEmail: string, loginPass: string) => {
     setError('');
     setLoading(true);
 
     try {
       const res = await signIn('credentials', {
         redirect: false,
-        email,
-        password,
+        email: loginEmail,
+        password: loginPass,
       });
 
       if (res?.error) {
-        setError(res.error);
+        if (res.error === 'CredentialsSignin') {
+          setError('Email hoặc mật khẩu không chính xác.');
+        } else {
+          setError(res.error);
+        }
         setLoading(false);
       } else {
-        router.push(callbackUrl);
-        router.refresh();
+        // Successful login, navigate to destination
+        window.location.href = callbackUrl;
       }
     } catch (err: any) {
       if (typeof window !== 'undefined' && window.location.port !== '3000') {
         setError(`Bạn đang mở cổng ${window.location.port}. Máy chủ hiện tại đang chạy tại http://localhost:3000. Vui lòng chuyển sang http://localhost:3000/login.`);
       } else {
-        setError('Đã xảy ra lỗi kết nối, vui lòng thử lại.');
+        setError(err?.message || 'Đã xảy ra lỗi kết nối, vui lòng thử lại.');
       }
       setLoading(false);
     }
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await processLogin(email, password);
+  };
+
   const handleQuickLogin = async (accEmail: string, accPass: string) => {
     setEmail(accEmail);
     setPassword(accPass);
-    setError('');
-    setLoading(true);
-
-    try {
-      const res = await signIn('credentials', {
-        redirect: false,
-        email: accEmail,
-        password: accPass,
-      });
-
-      if (res?.error) {
-        setError(res.error);
-        setLoading(false);
-      } else {
-        router.push(callbackUrl);
-        router.refresh();
-      }
-    } catch (err: any) {
-      if (typeof window !== 'undefined' && window.location.port !== '3000') {
-        setError(`Bạn đang mở cổng ${window.location.port}. Máy chủ hiện tại đang chạy tại http://localhost:3000. Vui lòng chuyển sang http://localhost:3000/login.`);
-      } else {
-        setError('Đã xảy ra lỗi kết nối, vui lòng thử lại.');
-      }
-      setLoading(false);
-    }
+    await processLogin(accEmail, accPass);
   };
 
   return (
