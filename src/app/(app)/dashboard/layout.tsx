@@ -18,24 +18,25 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="container" style={{ paddingTop: '32px' }}>
+    <div className="container" style={{ paddingTop: '24px' }}>
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: '260px minmax(0, 1fr)',
-          gap: '28px',
+          gridTemplateColumns: '220px minmax(0, 1fr)',
+          gap: '24px',
           alignItems: 'start',
         }}
-        className="dashboard-container-grid"
+        className="dashboard-grid-layout"
       >
         <DashboardSidebar />
         <div style={{ minWidth: 0 }}>{children}</div>
       </div>
 
       <style>{`
-        @media (max-width: 820px) {
-          .dashboard-container-grid {
+        @media (max-width: 768px) {
+          .dashboard-grid-layout {
             grid-template-columns: 1fr !important;
+            gap: 16px !important;
           }
         }
       `}</style>

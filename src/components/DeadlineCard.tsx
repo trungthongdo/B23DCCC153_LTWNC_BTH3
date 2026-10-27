@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Calendar, ArrowRight, Tag, BookmarkCheck } from 'lucide-react';
+import { Calendar, ChevronRight } from 'lucide-react';
 import { Deadline } from '@/types';
 import CountdownBadge from './CountdownBadge';
 import CompleteButton from './CompleteButton';
@@ -11,17 +11,11 @@ interface DeadlineCardProps {
   showSubjectLink?: boolean;
 }
 
-const TYPE_LABELS: Record<string, { label: string; color: string }> = {
-  assignment: { label: 'Bài tập tuần', color: '#818cf8' },
-  project: { label: 'Đồ án lớn', color: '#c084fc' },
-  quiz: { label: 'Trắc nghiệm', color: '#38bdf8' },
-  exam: { label: 'Thi / Kiểm tra', color: '#f43f5e' },
-};
-
-const PRIORITY_LABELS: Record<string, { label: string; badgeClass: string }> = {
-  high: { label: 'Ưu tiên cao', badgeClass: 'badge-danger' },
-  medium: { label: 'Ưu tiên vừa', badgeClass: 'badge-warning' },
-  low: { label: 'Ưu tiên thấp', badgeClass: 'badge-neutral' },
+const TYPE_LABELS: Record<string, string> = {
+  assignment: 'Bài tập tuần',
+  project: 'Đồ án lớn',
+  quiz: 'Trắc nghiệm',
+  exam: 'Thi / Kiểm tra',
 };
 
 export default function DeadlineCard({
@@ -30,12 +24,10 @@ export default function DeadlineCard({
   showSubjectLink = true,
 }: DeadlineCardProps) {
   const isCompleted = currentUserId ? deadline.completedBy.includes(currentUserId) : false;
-  const typeInfo = TYPE_LABELS[deadline.type] || { label: 'Bài tập', color: '#818cf8' };
-  const priorityInfo = PRIORITY_LABELS[deadline.priority] || PRIORITY_LABELS.medium;
+  const typeLabel = TYPE_LABELS[deadline.type] || 'Bài tập';
 
   const dueDateObj = new Date(deadline.dueDate);
   const formattedDate = new Intl.DateTimeFormat('vi-VN', {
-    weekday: 'short',
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
@@ -43,27 +35,21 @@ export default function DeadlineCard({
     minute: '2-digit',
   }).format(dueDateObj);
 
+  const isHighPriority = deadline.priority === 'high';
+
   return (
     <div
-      className="glass-panel"
+      className="saas-card saas-card-interactive"
       style={{
-        padding: '24px',
+        padding: '18px 20px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        gap: '18px',
-        position: 'relative',
-        borderLeft: `4px solid ${
-          deadline.priority === 'high'
-            ? 'var(--accent-rose)'
-            : deadline.priority === 'medium'
-            ? 'var(--accent-amber)'
-            : 'var(--primary)'
-        }`,
+        gap: '14px',
       }}
     >
       <div>
-        {/* Top meta tags */}
+        {/* Top metadata tags */}
         <div
           style={{
             display: 'flex',
@@ -71,88 +57,64 @@ export default function DeadlineCard({
             justifyContent: 'space-between',
             gap: '8px',
             flexWrap: 'wrap',
-            marginBottom: '12px',
+            marginBottom: '10px',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             {showSubjectLink ? (
               <Link
                 href={`/subjects/${deadline.subjectSlug}`}
-                style={{
-                  fontSize: '0.785rem',
-                  fontWeight: 600,
-                  color: 'var(--primary)',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                }}
+                className="badge badge-blue"
+                style={{ textDecoration: 'none' }}
               >
-                <Tag size={12} />
                 {deadline.subjectName}
               </Link>
             ) : (
-              <span
-                style={{
-                  fontSize: '0.785rem',
-                  fontWeight: 600,
-                  color: 'var(--text-secondary)',
-                }}
-              >
+              <span className="badge badge-blue">
                 {deadline.subjectName}
               </span>
             )}
-            <span
-              style={{
-                fontSize: '0.725rem',
-                padding: '2px 8px',
-                borderRadius: 'var(--radius-full)',
-                background: 'rgba(255, 255, 255, 0.05)',
-                color: typeInfo.color,
-                border: `1px solid ${typeInfo.color}40`,
-                fontWeight: 500,
-              }}
-            >
-              {typeInfo.label}
+
+            <span className="badge badge-neutral">
+              {typeLabel}
             </span>
           </div>
 
-          <span className={`badge ${priorityInfo.badgeClass}`}>
-            {priorityInfo.label}
-          </span>
+          {isHighPriority && (
+            <span className="badge badge-danger">
+              Ưu tiên cao
+            </span>
+          )}
         </div>
 
         {/* Title */}
         <h3
           style={{
-            fontSize: '1.15rem',
-            fontWeight: 700,
+            fontSize: '0.975rem',
+            fontWeight: 600,
             lineHeight: 1.4,
-            marginBottom: '10px',
+            marginBottom: '6px',
+            color: 'var(--text-main)',
           }}
         >
           <Link
             href={`/deadlines/${deadline.id}`}
-            style={{
-              color: 'var(--text-primary)',
-              transition: 'color 0.2s',
-            }}
-            className="hover-underline"
+            style={{ color: 'var(--text-main)' }}
           >
             {deadline.title}
           </Link>
         </h3>
 
-        {/* Description snippet */}
+        {/* Description */}
         <p
           style={{
-            color: 'var(--text-secondary)',
-            fontSize: '0.875rem',
-            lineHeight: 1.55,
+            color: 'var(--text-muted)',
+            fontSize: '0.8125rem',
+            lineHeight: 1.5,
             display: '-webkit-box',
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
-            marginBottom: '16px',
           }}
         >
           {deadline.description}
@@ -163,45 +125,31 @@ export default function DeadlineCard({
       <div
         style={{
           borderTop: '1px solid var(--border-subtle)',
-          paddingTop: '14px',
+          paddingTop: '12px',
           display: 'flex',
-          flexDirection: 'column',
-          gap: '12px',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '8px',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '8px',
-          }}
-        >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <div
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
+              gap: '5px',
               color: 'var(--text-muted)',
-              fontSize: '0.825rem',
+              fontSize: '0.785rem',
             }}
           >
-            <Calendar size={14} />
+            <Calendar size={13} />
             <span>{formattedDate}</span>
           </div>
           <CountdownBadge dueDate={deadline.dueDate} isCompleted={isCompleted} />
         </div>
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '8px',
-            marginTop: '4px',
-          }}
-        >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <CompleteButton
             deadlineId={deadline.id}
             initialCompleted={isCompleted}
@@ -210,15 +158,15 @@ export default function DeadlineCard({
 
           <Link
             href={`/deadlines/${deadline.id}`}
-            className="btn btn-outline"
+            className="btn btn-secondary"
             style={{
-              padding: '6px 12px',
-              fontSize: '0.8rem',
-              borderRadius: 'var(--radius-full)',
+              padding: '4px 8px',
+              fontSize: '0.75rem',
+              color: 'var(--text-secondary)',
             }}
           >
             <span>Chi tiết</span>
-            <ArrowRight size={13} />
+            <ChevronRight size={12} />
           </Link>
         </div>
       </div>

@@ -2,28 +2,14 @@ import React from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import {
-  Calendar,
-  Clock,
-  ChevronRight,
-  ArrowLeft,
-  Tag,
-  AlertCircle,
-  Share2,
-  CheckCircle2,
-  User,
-  Layers,
-  Sparkles,
-} from 'lucide-react';
+import { ChevronRight, ArrowLeft, Calendar, User } from 'lucide-react';
 import { getDeadlines, getDeadlineById, getSubjectBySlug } from '@/lib/data';
 import CountdownBadge from '@/components/CountdownBadge';
 import CompleteButton from '@/components/CompleteButton';
 
 // CHIẾN LƯỢC RENDER: ISR (Incremental Static Regeneration)
-// Làm mới sau 60s hoặc ngay lập tức khi admin thêm / xoá (thông qua revalidatePath)
 export const revalidate = 60;
 
-// Tạo danh sách static params cho toàn bộ deadlines lúc build
 export async function generateStaticParams() {
   const deadlines = await getDeadlines();
   return deadlines.map((d) => ({
@@ -31,7 +17,6 @@ export async function generateStaticParams() {
   }));
 }
 
-// Metadata động kèm OpenGraph image
 export async function generateMetadata({
   params,
 }: {
@@ -68,6 +53,13 @@ export async function generateMetadata({
     },
   };
 }
+
+const TYPE_NAMES: Record<string, string> = {
+  assignment: 'Bài tập tuần',
+  project: 'Đồ án lớn',
+  quiz: 'Trắc nghiệm online',
+  exam: 'Thi / Kiểm tra',
+};
 
 export default async function DeadlineDetailPage({
   params,
@@ -118,290 +110,194 @@ export default async function DeadlineDetailPage({
     ],
   };
 
-  const TYPE_NAMES: Record<string, string> = {
-    assignment: 'Bài tập tuần',
-    project: 'Đồ án lớn',
-    quiz: 'Trắc nghiệm online',
-    exam: 'Thi / Kiểm tra',
-  };
-
   return (
-    <div className="container" style={{ paddingTop: '32px' }}>
+    <div className="container" style={{ paddingTop: '24px' }}>
       {/* Structured data JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Breadcrumb */}
+      {/* Clean Breadcrumb */}
       <nav
         aria-label="Breadcrumb"
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
-          fontSize: '0.85rem',
+          gap: '6px',
+          fontSize: '0.8125rem',
           color: 'var(--text-muted)',
-          marginBottom: '24px',
+          marginBottom: '18px',
           flexWrap: 'wrap',
         }}
       >
         <Link href="/" style={{ color: 'var(--text-secondary)' }}>
           Trang chủ
         </Link>
-        <ChevronRight size={14} />
+        <ChevronRight size={12} />
         <Link href="/deadlines" style={{ color: 'var(--text-secondary)' }}>
-          Danh sách Deadline
+          Deadlines
         </Link>
-        <ChevronRight size={14} />
-        <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>
+        <ChevronRight size={12} />
+        <span style={{ color: 'var(--text-main)', fontWeight: 500 }}>
           {deadline.title}
         </span>
       </nav>
 
-      {/* Main Content Layout */}
+      {/* Unified Main SaaS Container */}
       <div
+        className="saas-card"
         style={{
-          display: 'grid',
-          gridTemplateColumns: 'minmax(0, 1fr) 340px',
-          gap: '28px',
+          padding: '28px',
+          maxWidth: '860px',
+          margin: '0 auto',
         }}
-        className="deadline-detail-grid"
       >
-        {/* Left Column: Details */}
-        <div>
-          <div
-            className="glass-panel"
+        {/* Top meta tags */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '8px',
+            marginBottom: '12px',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Link
+              href={`/subjects/${deadline.subjectSlug}`}
+              className="badge badge-blue"
+              style={{ textDecoration: 'none' }}
+            >
+              {deadline.subjectName}
+            </Link>
+
+            <span className="badge badge-neutral">
+              {TYPE_NAMES[deadline.type] || 'Bài tập'}
+            </span>
+
+            {deadline.priority === 'high' && (
+              <span className="badge badge-danger">
+                Ưu tiên cao
+              </span>
+            )}
+          </div>
+
+          <CountdownBadge dueDate={deadline.dueDate} />
+        </div>
+
+        {/* Title */}
+        <h1
+          style={{
+            fontSize: '1.45rem',
+            fontWeight: 700,
+            lineHeight: 1.35,
+            color: 'var(--text-main)',
+            marginBottom: '18px',
+          }}
+        >
+          {deadline.title}
+        </h1>
+
+        {/* Key Information Bar */}
+        <div
+          style={{
+            padding: '14px 16px',
+            backgroundColor: 'var(--bg-subtle)',
+            borderRadius: 'var(--radius-sm)',
+            border: '1px solid var(--border-color)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '12px',
+            marginBottom: '24px',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Calendar size={16} style={{ color: 'var(--text-muted)' }} />
+            <div>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>
+                Hạn nộp chính xác:
+              </span>
+              <span style={{ fontSize: '0.925rem', fontWeight: 600, color: 'var(--text-main)' }}>
+                {formattedDueDate}
+              </span>
+            </div>
+          </div>
+
+          <CompleteButton
+            deadlineId={deadline.id}
+            completedBy={deadline.completedBy}
+            size="md"
+          />
+        </div>
+
+        {/* Requirement & Description */}
+        <div style={{ marginBottom: '28px' }}>
+          <h2
             style={{
-              padding: '36px',
-              borderTop: `6px solid ${
-                deadline.priority === 'high'
-                  ? 'var(--accent-rose)'
-                  : deadline.priority === 'medium'
-                  ? 'var(--accent-amber)'
-                  : 'var(--primary)'
-              }`,
+              fontSize: '0.95rem',
+              fontWeight: 600,
+              color: 'var(--text-main)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.03em',
+              marginBottom: '10px',
             }}
           >
-            {/* Badges & Rendering tag */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                flexWrap: 'wrap',
-                marginBottom: '16px',
-              }}
-            >
-              <Link
-                href={`/subjects/${deadline.subjectSlug}`}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  fontWeight: 600,
-                  fontSize: '0.85rem',
-                  color: 'var(--primary)',
-                }}
-              >
-                <Tag size={14} />
-                {deadline.subjectName}
-              </Link>
-
-              <span className="badge badge-primary">
-                {TYPE_NAMES[deadline.type] || 'Bài tập'}
-              </span>
-
-              <span
-                className={`badge ${
-                  deadline.priority === 'high'
-                    ? 'badge-danger'
-                    : deadline.priority === 'medium'
-                    ? 'badge-warning'
-                    : 'badge-neutral'
-                }`}
-              >
-                Ưu tiên {deadline.priority === 'high' ? 'cao' : deadline.priority === 'medium' ? 'vừa' : 'thấp'}
-              </span>
-
-              <span className="badge badge-success">ISR Page</span>
-            </div>
-
-            {/* Title */}
-            <h1
-              style={{
-                fontSize: 'clamp(1.8rem, 4vw, 2.4rem)',
-                fontWeight: 800,
-                lineHeight: 1.3,
-                marginBottom: '20px',
-                color: 'var(--text-primary)',
-              }}
-            >
-              {deadline.title}
-            </h1>
-
-            {/* Due date & countdown alert box */}
-            <div
-              style={{
-                padding: '18px 22px',
-                borderRadius: 'var(--radius-md)',
-                background: 'rgba(99, 102, 241, 0.08)',
-                border: '1px solid rgba(99, 102, 241, 0.25)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                gap: '14px',
-                marginBottom: '28px',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div
-                  style={{
-                    width: '42px',
-                    height: '42px',
-                    borderRadius: '50%',
-                    background: 'rgba(99, 102, 241, 0.2)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--primary)',
-                  }}
-                >
-                  <Calendar size={22} />
-                </div>
-                <div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                    Hạn nộp chính xác:
-                  </div>
-                  <div style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                    {formattedDueDate}
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <CountdownBadge dueDate={deadline.dueDate} />
-                <CompleteButton deadlineId={deadline.id} completedBy={deadline.completedBy} />
-              </div>
-            </div>
-
-            {/* Content Description */}
-            <div style={{ marginBottom: '32px' }}>
-              <h2
-                style={{
-                  fontSize: '1.15rem',
-                  fontWeight: 700,
-                  marginBottom: '12px',
-                  color: 'var(--text-primary)',
-                }}
-              >
-                Nội Dung Và Yêu Cầu Chi Tiết
-              </h2>
-              <div
-                style={{
-                  fontSize: '0.975rem',
-                  color: 'var(--text-secondary)',
-                  lineHeight: 1.7,
-                  whiteSpace: 'pre-line',
-                }}
-              >
-                {deadline.description}
-              </div>
-            </div>
-
-            {/* Social Sharing Notice */}
-            <div
-              style={{
-                borderTop: '1px solid var(--border-subtle)',
-                paddingTop: '20px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                gap: '12px',
-              }}
-            >
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                Được tạo bởi: <code>{deadline.createdBy}</code>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span className="badge badge-neutral">
-                  <Share2 size={12} />
-                  OG Image Dynamic Active
-                </span>
-              </div>
-            </div>
+            Yêu cầu chi tiết
+          </h2>
+          <div
+            style={{
+              fontSize: '0.925rem',
+              color: 'var(--text-secondary)',
+              lineHeight: 1.65,
+              whiteSpace: 'pre-line',
+              padding: '16px',
+              backgroundColor: '#ffffff',
+              borderRadius: 'var(--radius-sm)',
+              border: '1px solid var(--border-color)',
+            }}
+          >
+            {deadline.description}
           </div>
         </div>
 
-        {/* Right Column: Subject Info & Actions */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {/* Subject Overview Card */}
-          {subject && (
-            <div className="glass-panel" style={{ padding: '24px' }}>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '14px' }}>
-                Thông Tin Môn Học
-              </h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.875rem' }}>
-                <div>
-                  <span style={{ color: 'var(--text-muted)' }}>Môn: </span>
-                  <strong>{subject.name}</strong>
-                </div>
-                <div>
-                  <span style={{ color: 'var(--text-muted)' }}>Mã môn: </span>
-                  <span className="badge badge-primary" style={{ padding: '2px 6px', fontSize: '0.75rem' }}>
-                    {subject.code}
-                  </span>
-                </div>
-                <div>
-                  <span style={{ color: 'var(--text-muted)' }}>Giảng viên: </span>
-                  <strong>{subject.lecturer}</strong>
-                </div>
-                <div>
-                  <span style={{ color: 'var(--text-muted)' }}>Email: </span>
-                  <a href={`mailto:${subject.email}`} style={{ color: 'var(--primary)', textDecoration: 'underline' }}>
-                    {subject.email}
-                  </a>
-                </div>
-              </div>
-
-              <Link
-                href={`/subjects/${subject.slug}`}
-                className="btn btn-secondary"
-                style={{ width: '100%', marginTop: '16px', fontSize: '0.85rem' }}
-              >
-                Xem chi tiết môn học
-              </Link>
+        {/* Subject and Instructor Brief */}
+        {subject && (
+          <div
+            style={{
+              paddingTop: '16px',
+              borderTop: '1px solid var(--border-subtle)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: '12px',
+              fontSize: '0.8125rem',
+              color: 'var(--text-muted)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <User size={14} />
+              <span>Giảng viên:</span>
+              <strong style={{ color: 'var(--text-main)' }}>{subject.lecturer}</strong>
+              <span>({subject.email})</span>
             </div>
-          )}
 
-          {/* Quick Actions Card */}
-          <div className="glass-panel" style={{ padding: '24px' }}>
-            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, marginBottom: '14px' }}>
-              Thao Tác Nhanh
-            </h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <Link href="/deadlines" className="btn btn-secondary" style={{ width: '100%' }}>
-                <ArrowLeft size={16} /> Quay lại danh sách
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <Link href="/deadlines" className="btn btn-secondary" style={{ padding: '5px 10px', fontSize: '0.785rem' }}>
+                <ArrowLeft size={13} />
+                <span>Quay lại</span>
               </Link>
-              <Link href="/dashboard" className="btn btn-primary" style={{ width: '100%' }}>
-                Vào Dashboard của tôi
+              <Link href="/dashboard" className="btn btn-primary" style={{ padding: '5px 10px', fontSize: '0.785rem' }}>
+                Dashboard
               </Link>
             </div>
           </div>
-        </div>
+        )}
       </div>
-
-      <style>{`
-        @media (max-width: 860px) {
-          .deadline-detail-grid {
-            grid-template-columns: 1fr !min;
-            display: flex !important;
-            flex-direction: column !important;
-          }
-        }
-      `}</style>
     </div>
   );
 }

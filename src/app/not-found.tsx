@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { FileQuestion, Home, ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Home } from 'lucide-react';
 
 export default function NotFound() {
   return (
@@ -10,77 +10,52 @@ export default function NotFound() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '70vh',
-        padding: '32px 20px',
+        minHeight: '65vh',
+        padding: '24px 20px',
         textAlign: 'center',
       }}
     >
       <div
-        className="glass-panel"
+        className="saas-card"
         style={{
-          maxWidth: '540px',
+          maxWidth: '440px',
           width: '100%',
-          padding: '48px 36px',
+          padding: '32px 24px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '24px',
+          gap: '14px',
         }}
       >
         <div
           style={{
-            position: 'relative',
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            fontSize: '2rem',
+            fontWeight: 800,
+            color: 'var(--text-muted)',
+            letterSpacing: '-0.03em',
+            lineHeight: 1,
           }}
         >
-          <span
-            style={{
-              fontSize: '6rem',
-              fontWeight: 800,
-              lineHeight: 1,
-              letterSpacing: '-0.05em',
-              background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.4) 0%, rgba(225, 29, 72, 0.4) 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}
-          >
-            404
-          </span>
-          <div
-            style={{
-              position: 'absolute',
-              width: '56px',
-              height: '56px',
-              borderRadius: '50%',
-              background: 'var(--bg-tertiary)',
-              border: '1px solid var(--border-medium)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: 'var(--accent-amber)',
-            }}
-          >
-            <FileQuestion size={28} />
-          </div>
+          404
         </div>
 
         <div>
-          <h1 style={{ fontSize: '1.6rem', fontWeight: 700, marginBottom: '8px' }}>
-            Không tìm thấy trang yêu cầu
+          <h1 style={{ fontSize: '1.2rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: '6px' }}>
+            Không tìm thấy trang
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: 1.6 }}>
-            Deadline hoặc trang bạn đang tìm kiếm không tồn tại, đã bị xoá hoặc đường dẫn URL không chính xác.
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.84rem', lineHeight: 1.5 }}>
+            Deadline hoặc trang bạn tìm kiếm không tồn tại, đã bị xoá hoặc đường dẫn URL chưa chính xác.
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <Link href="/deadlines" className="btn btn-primary" id="view-deadlines-btn">
-            <ArrowLeft size={16} /> Danh sách Deadline
+        <div style={{ display: 'flex', gap: '8px', marginTop: '6px' }}>
+          <Link href="/deadlines" className="btn btn-primary" id="view-deadlines-btn" style={{ fontSize: '0.8125rem' }}>
+            <ArrowLeft size={13} />
+            <span>Xem danh sách deadline</span>
           </Link>
-          <Link href="/" className="btn btn-secondary" id="back-home-btn">
-            <Home size={16} /> Về Trang Chủ
+          <Link href="/" className="btn btn-secondary" id="back-home-btn" style={{ fontSize: '0.8125rem' }}>
+            <Home size={13} />
+            <span>Về Trang chủ</span>
           </Link>
         </div>
       </div>

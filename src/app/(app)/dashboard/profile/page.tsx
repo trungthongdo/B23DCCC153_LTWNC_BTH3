@@ -1,9 +1,9 @@
 import React from 'react';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
-import { User, Shield, Check, X, ShieldCheck, Mail, Key, Crown } from 'lucide-react';
+import { Check, X, Shield, User } from 'lucide-react';
 import { authOptions } from '@/lib/auth';
-import { can, PERMISSION_MATRIX } from '@/lib/permissions';
+import { can } from '@/lib/permissions';
 import { Action } from '@/types';
 
 export const dynamic = 'force-dynamic';
@@ -23,7 +23,7 @@ export default async function ProfilePage() {
     {
       id: 'view_deadline',
       label: 'Xem deadline công khai',
-      desc: 'Truy cập danh sách bài tập, chi tiết và thời hạn',
+      desc: 'Truy cập danh sách bài tập, chi tiết và hạn nộp',
     },
     {
       id: 'toggle_complete',
@@ -43,56 +43,55 @@ export default async function ProfilePage() {
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      {/* Profile Header */}
-      <div className="glass-panel" style={{ padding: '32px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      {/* Profile Overview Card */}
+      <div className="saas-card" style={{ padding: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <div
             style={{
-              width: '64px',
-              height: '64px',
+              width: '40px',
+              height: '40px',
               borderRadius: '50%',
-              background: isAdmin
-                ? 'linear-gradient(135deg, #e11d48, #be123c)'
-                : 'linear-gradient(135deg, #6366f1, #4338ca)',
+              backgroundColor: isAdmin ? 'var(--ptit-red)' : 'var(--btn-dark-bg)',
+              color: '#ffffff',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: 'white',
-              fontSize: '1.6rem',
-              fontWeight: 800,
+              fontSize: '1rem',
+              fontWeight: 700,
             }}
           >
-            {isAdmin ? <Crown size={32} /> : user.name?.charAt(0) || 'U'}
+            {user.name?.charAt(0) || 'U'}
           </div>
 
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <h1 style={{ fontSize: '1.5rem', fontWeight: 800 }}>{user.name}</h1>
-              <span className={`badge ${isAdmin ? 'badge-ptit' : 'badge-primary'}`}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <h1 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-main)' }}>
+                {user.name}
+              </h1>
+              <span className={`badge ${isAdmin ? 'badge-ptit' : 'badge-neutral'}`}>
                 {isAdmin ? 'Lớp trưởng (Admin)' : 'Sinh viên (User)'}
               </span>
             </div>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '4px' }}>
-              Email tài khoản: <code>{user.email}</code> • User ID: <code>#{user.id}</code>
-            </p>
+            <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+              {user.email} • ID: #{user.id}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Permission Matrix for this user */}
-      <div className="glass-panel" style={{ padding: '32px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-          <ShieldCheck size={22} style={{ color: 'var(--primary)' }} />
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 700 }}>
-            Kiểm Tra Phân Quyền Cá Nhân (can(role, action))
+      {/* Permissions Matrix Table */}
+      <div className="saas-card" style={{ padding: '20px' }}>
+        <div style={{ marginBottom: '14px' }}>
+          <h2 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: '2px' }}>
+            Phân quyền tài khoản
           </h2>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.8125rem' }}>
+            Được kiểm soát tập trung qua hàm <code>can(role, action)</code>
+          </p>
         </div>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '20px' }}>
-          Hệ thống phân quyền được thực thi tập trung qua hàm <code>can(role, action)</code> kết hợp kiểm tra hai lớp tại Middleware và Server Action.
-        </p>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {actions.map((act) => {
             const hasPermission = can(role, act.id);
 
@@ -103,35 +102,29 @@ export default async function ProfilePage() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  padding: '16px 20px',
-                  borderRadius: 'var(--radius-md)',
-                  background: 'rgba(0, 0, 0, 0.25)',
-                  border: '1px solid var(--border-subtle)',
+                  padding: '12px 14px',
+                  borderRadius: 'var(--radius-sm)',
+                  backgroundColor: 'var(--bg-subtle)',
+                  border: '1px solid var(--border-color)',
                 }}
               >
                 <div>
-                  <div style={{ fontWeight: 600, fontSize: '0.95rem', marginBottom: '2px' }}>
+                  <div style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-main)' }}>
                     {act.label}
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                    Action: <code>{act.id}</code> — {act.desc}
+                  <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                    {act.desc}
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div>
                   {hasPermission ? (
-                    <span
-                      className="badge badge-success"
-                      style={{ padding: '6px 14px', fontSize: '0.8rem' }}
-                    >
-                      <Check size={14} /> Có quyền (ALLOW)
+                    <span className="badge badge-success">
+                      <Check size={12} /> Cho phép
                     </span>
                   ) : (
-                    <span
-                      className="badge badge-danger"
-                      style={{ padding: '6px 14px', fontSize: '0.8rem' }}
-                    >
-                      <X size={14} /> Bị từ chối (DENY)
+                    <span className="badge badge-neutral">
+                      <X size={12} /> Không có quyền
                     </span>
                   )}
                 </div>

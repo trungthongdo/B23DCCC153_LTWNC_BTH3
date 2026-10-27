@@ -1,6 +1,5 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import { RefreshCw, CalendarClock } from 'lucide-react';
 import { getDeadlines, getSubjects } from '@/lib/data';
 import DeadlinesFilter from '@/components/DeadlinesFilter';
 
@@ -18,43 +17,23 @@ export default async function DeadlinesPage() {
   const subjects = await getSubjects();
 
   return (
-    <div className="container" style={{ paddingTop: '36px' }}>
-      {/* Page Header */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '16px',
-          marginBottom: '28px',
-        }}
-      >
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-            <span
-              className="badge badge-primary"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '5px' }}
-            >
-              <RefreshCw size={12} />
-              ISR (Revalidate: 60s)
-            </span>
-            <span className="badge badge-neutral">
-              Tổng cộng: {deadlines.length} deadline
-            </span>
-          </div>
-
-          <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.4rem)', fontWeight: 800 }}>
-            Tất Cả Deadline Lớp Học
+    <div className="container" style={{ paddingTop: '24px' }}>
+      {/* Header */}
+      <div style={{ marginBottom: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+          <h1 style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--text-main)', letterSpacing: '-0.01em' }}>
+            Danh sách Deadline
           </h1>
-
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginTop: '6px' }}>
-            Tìm kiếm, lọc theo môn học và theo dõi thời gian còn lại theo thời gian thực.
-          </p>
+          <span className="badge badge-neutral" style={{ fontSize: '0.72rem' }}>
+            {deadlines.length} bài tập
+          </span>
         </div>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
+          Lọc theo môn học, tìm kiếm bài tập và theo dõi hạn nộp thời gian thực.
+        </p>
       </div>
 
-      {/* Interactive Filter and Grid */}
+      {/* Interactive SaaS Task Filter & List */}
       <DeadlinesFilter
         initialDeadlines={deadlines}
         subjects={subjects}

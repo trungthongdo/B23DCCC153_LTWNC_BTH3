@@ -50,14 +50,12 @@ export default function CompleteButton({
       return;
     }
 
-    // Optimistic UI
     const nextState = !completed;
     setCompleted(nextState);
 
     startTransition(async () => {
       const res = await toggleCompleteAction(deadlineId);
       if (!res.success) {
-        // Rollback
         setCompleted(!nextState);
         alert(res.error || 'Có lỗi xảy ra khi cập nhật.');
       }
@@ -70,6 +68,7 @@ export default function CompleteButton({
     <button
       onClick={handleToggle}
       disabled={isPending}
+      type="button"
       title={
         !session
           ? 'Đăng nhập để đánh dấu hoàn thành'
@@ -80,30 +79,26 @@ export default function CompleteButton({
       style={{
         display: 'inline-flex',
         alignItems: 'center',
-        gap: '6px',
-        padding: isSmall ? '4px 10px' : '7px 14px',
-        fontSize: isSmall ? '0.785rem' : '0.875rem',
+        gap: '5px',
+        padding: isSmall ? '3px 8px' : '5px 12px',
+        fontSize: isSmall ? '0.75rem' : '0.8125rem',
         fontWeight: 500,
-        borderRadius: 'var(--radius-full)',
-        transition: 'all 0.2s ease',
+        borderRadius: 'var(--radius-sm)',
+        transition: 'all 0.15s ease',
         cursor: isPending ? 'wait' : 'pointer',
-        background: completed
-          ? 'rgba(16, 185, 129, 0.18)'
-          : 'rgba(255, 255, 255, 0.06)',
-        color: completed ? '#6ee7b7' : 'var(--text-secondary)',
-        border: `1px solid ${
-          completed ? 'rgba(16, 185, 129, 0.45)' : 'var(--border-subtle)'
-        }`,
+        backgroundColor: completed ? 'var(--success-surface)' : 'var(--bg-surface)',
+        color: completed ? 'var(--success-text)' : 'var(--text-secondary)',
+        border: `1px solid ${completed ? 'var(--success-border)' : 'var(--border-color)'}`,
       }}
     >
       {isPending ? (
-        <Loader2 size={isSmall ? 13 : 15} style={{ animation: 'spin 1s linear infinite' }} />
+        <Loader2 size={isSmall ? 12 : 14} style={{ animation: 'spin 1s linear infinite' }} />
       ) : (
         <Check
-          size={isSmall ? 13 : 15}
+          size={isSmall ? 12 : 14}
           style={{
-            strokeWidth: completed ? 3 : 2,
-            color: completed ? '#10b981' : 'var(--text-muted)',
+            color: completed ? 'var(--success)' : 'var(--text-subtle)',
+            strokeWidth: completed ? 2.5 : 2,
           }}
         />
       )}

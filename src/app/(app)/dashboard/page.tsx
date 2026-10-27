@@ -2,18 +2,9 @@ import React from 'react';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { getServerSession } from 'next-auth';
-import {
-  CheckCircle2,
-  Clock,
-  AlertTriangle,
-  Flame,
-  ArrowRight,
-  TrendingUp,
-  BookmarkCheck,
-  Calendar,
-} from 'lucide-react';
+import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { authOptions } from '@/lib/auth';
-import { getDeadlines, getSubjects } from '@/lib/data';
+import { getDeadlines } from '@/lib/data';
 import DeadlineCard from '@/components/DeadlineCard';
 
 // CHIẾN LƯỢC RENDER: SSR (Server-Side Rendering)
@@ -28,7 +19,6 @@ export default async function DashboardPage() {
 
   const userId = session.user.id;
   const deadlines = await getDeadlines();
-  const subjects = await getSubjects();
 
   const now = Date.now();
   const completedDeadlines = deadlines.filter((d) => d.completedBy.includes(userId));
@@ -45,52 +35,36 @@ export default async function DashboardPage() {
   const percentComplete = total > 0 ? Math.round((completedCount / total) * 100) : 0;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-      {/* Welcome Banner */}
-      <div
-        className="glass-panel"
-        style={{
-          padding: '28px 32px',
-          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(16, 22, 34, 0.8) 100%)',
-          border: '1px solid rgba(99, 102, 241, 0.3)',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-          <span className="badge badge-warning">SSR (Server-Side Rendering)</span>
-          <span className="badge badge-neutral">ID Sinh viên: #{userId}</span>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+      {/* Top Welcome & Progress Card */}
+      <div className="saas-card" style={{ padding: '20px 24px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px', marginBottom: '14px' }}>
+          <div>
+            <h1 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '2px' }}>
+              Xin chào, {session.user.name}
+            </h1>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.8125rem' }}>
+              Học kỳ này bạn đã hoàn thành {completedCount} trên tổng số {total} bài tập.
+            </p>
+          </div>
+
+          <span className="badge badge-neutral">
+            ID: #{userId}
+          </span>
         </div>
 
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '8px' }}>
-          Xin chào, <span className="gradient-text">{session.user.name}</span>! 👋
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
-          Dưới đây là tiến độ học tập và các bài tập cần hoàn thành trong học kỳ này của bạn.
-        </p>
-
-        {/* Progress Bar Container */}
-        <div style={{ marginTop: '24px' }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: '8px',
-              fontSize: '0.875rem',
-            }}
-          >
-            <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
-              Tiến độ hoàn thành bài tập kỳ này
-            </span>
-            <span style={{ fontWeight: 700, color: 'var(--accent-emerald)' }}>
-              {percentComplete}% ({completedCount}/{total})
-            </span>
+        {/* Minimal Progress Bar */}
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.785rem', marginBottom: '6px' }}>
+            <span style={{ color: 'var(--text-secondary)', fontWeight: 500 }}>Tiến độ kỳ học</span>
+            <span style={{ fontWeight: 600, color: 'var(--text-main)' }}>{percentComplete}%</span>
           </div>
 
           <div
             style={{
               width: '100%',
-              height: '10px',
-              backgroundColor: 'rgba(255, 255, 255, 0.08)',
+              height: '6px',
+              backgroundColor: 'var(--bg-subtle)',
               borderRadius: 'var(--radius-full)',
               overflow: 'hidden',
             }}
@@ -99,107 +73,110 @@ export default async function DashboardPage() {
               style={{
                 width: `${percentComplete}%`,
                 height: '100%',
-                background: 'linear-gradient(90deg, #6366f1 0%, #10b981 100%)',
+                backgroundColor: 'var(--btn-dark-bg)',
                 borderRadius: 'var(--radius-full)',
-                transition: 'width 0.5s ease',
+                transition: 'width 0.3s ease',
               }}
             />
           </div>
         </div>
       </div>
 
-      {/* KPI Stats Cards */}
+      {/* KPI Metrics Row */}
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-          gap: '16px',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
+          gap: '12px',
         }}
       >
-        <div className="glass-panel" style={{ padding: '20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px', color: 'var(--primary)' }}>
-            <Calendar size={18} />
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Tổng bài tập</span>
+        <div className="saas-card" style={{ padding: '14px 16px' }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+            Tổng bài tập
           </div>
-          <div style={{ fontSize: '1.8rem', fontWeight: 800 }}>{total}</div>
+          <div style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--text-main)' }}>
+            {total}
+          </div>
         </div>
 
-        <div className="glass-panel" style={{ padding: '20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px', color: 'var(--accent-emerald)' }}>
-            <CheckCircle2 size={18} />
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Đã hoàn thành</span>
+        <div className="saas-card" style={{ padding: '14px 16px' }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+            Đã hoàn thành
           </div>
-          <div style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--accent-emerald)' }}>
+          <div style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--success)' }}>
             {completedCount}
           </div>
         </div>
 
-        <div className="glass-panel" style={{ padding: '20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px', color: 'var(--accent-amber)' }}>
-            <Clock size={18} />
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Cần làm tiếp</span>
+        <div className="saas-card" style={{ padding: '14px 16px' }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+            Cần hoàn thành
           </div>
-          <div style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--accent-amber)' }}>
+          <div style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--warning)' }}>
             {pendingDeadlines.length}
           </div>
         </div>
 
-        <div className="glass-panel" style={{ padding: '20px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px', color: 'var(--accent-rose)' }}>
-            <AlertTriangle size={18} />
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Quá hạn nộp</span>
+        <div className="saas-card" style={{ padding: '14px 16px' }}>
+          <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '4px' }}>
+            Đã quá hạn
           </div>
-          <div style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--accent-rose)' }}>
+          <div style={{ fontSize: '1.45rem', fontWeight: 700, color: overdueDeadlines.length > 0 ? 'var(--danger)' : 'var(--text-muted)' }}>
             {overdueDeadlines.length}
           </div>
         </div>
       </div>
 
-      {/* Urgent Pending Deadlines Section */}
+      {/* Priority Pending Deadlines */}
       <div>
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginBottom: '16px',
-            flexWrap: 'wrap',
-            gap: '8px',
+            marginBottom: '12px',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Flame size={20} style={{ color: 'var(--accent-rose)' }} />
-            <h2 style={{ fontSize: '1.3rem', fontWeight: 700 }}>
-              Bài Tập Cần Ưu Tiên Hoàn Thành
-            </h2>
-          </div>
-          <Link href="/deadlines" className="btn btn-secondary" style={{ fontSize: '0.8rem' }}>
-            Xem toàn bộ ({total}) <ArrowRight size={14} />
+          <h2 style={{ fontSize: '1.05rem', fontWeight: 600, color: 'var(--text-main)' }}>
+            Bài tập cần làm tiếp ({pendingDeadlines.length})
+          </h2>
+
+          <Link href="/deadlines" className="btn btn-ghost" style={{ fontSize: '0.785rem', padding: '4px 8px' }}>
+            <span>Xem tất cả</span>
+            <ArrowRight size={12} />
           </Link>
         </div>
 
         {urgentUpcoming.length > 0 ? (
-          <div className="grid-cards">
-            {urgentUpcoming.slice(0, 4).map((d) => (
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))',
+              gap: '14px',
+            }}
+          >
+            {urgentUpcoming.map((d) => (
               <DeadlineCard key={d.id} deadline={d} currentUserId={userId} />
             ))}
           </div>
         ) : (
           <div
-            className="glass-panel"
+            className="saas-card"
             style={{
               padding: '36px',
               textAlign: 'center',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: '12px',
+              gap: '8px',
             }}
           >
-            <CheckCircle2 size={40} style={{ color: 'var(--accent-emerald)' }} />
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 700 }}>Tuyệt vời! Bạn không còn deadline nào tồn đọng</h3>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-              Tất cả bài tập đã được bạn đánh dấu hoàn thành hoặc chưa có bài tập mới.
+            <CheckCircle2 size={32} style={{ color: 'var(--success)' }} />
+            <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--text-main)' }}>
+              Không còn bài tập nào chưa xong
+            </div>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.8125rem' }}>
+              Bạn đã đánh dấu hoàn thành tất cả bài tập hiện có.
             </p>
           </div>
         )}

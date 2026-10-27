@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import Link from 'next/link';
-import { AlertTriangle, RotateCcw, Home } from 'lucide-react';
+import { AlertTriangle, RotateCcw } from 'lucide-react';
 
 export default function Error({
   error,
@@ -22,45 +22,44 @@ export default function Error({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: '65vh',
-        padding: '32px 20px',
+        minHeight: '60vh',
+        padding: '24px 20px',
         textAlign: 'center',
       }}
     >
       <div
-        className="glass-panel"
+        className="saas-card"
         style={{
-          maxWidth: '520px',
+          maxWidth: '440px',
           width: '100%',
-          padding: '40px 32px',
+          padding: '28px 24px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '20px',
-          border: '1px solid rgba(239, 68, 68, 0.3)',
+          gap: '14px',
         }}
       >
         <div
           style={{
-            width: '64px',
-            height: '64px',
+            width: '40px',
+            height: '40px',
             borderRadius: '50%',
-            background: 'rgba(239, 68, 68, 0.15)',
+            backgroundColor: 'var(--danger-surface)',
+            color: 'var(--danger)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#ef4444',
           }}
         >
-          <AlertTriangle size={32} />
+          <AlertTriangle size={20} />
         </div>
 
         <div>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '8px' }}>
-            Đã xảy ra sự cố không mong muốn
+          <h2 style={{ fontSize: '1.15rem', fontWeight: 600, color: 'var(--text-main)', marginBottom: '4px' }}>
+            Đã xảy ra sự cố
           </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.925rem', lineHeight: 1.6 }}>
-            Hệ thống không thể tải dữ liệu trang này. Bạn có thể thử tải lại hoặc quay về trang chủ.
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.84rem', lineHeight: 1.5 }}>
+            Không thể tải nội dung trang này. Vui lòng bấm thử lại hoặc quay về trang chủ.
           </p>
         </div>
 
@@ -68,32 +67,33 @@ export default function Error({
           <div
             style={{
               width: '100%',
-              padding: '12px',
-              borderRadius: 'var(--radius-sm)',
-              background: 'rgba(0, 0, 0, 0.4)',
-              border: '1px solid var(--border-subtle)',
-              fontSize: '0.825rem',
-              color: '#fca5a5',
+              padding: '8px 12px',
+              borderRadius: 'var(--radius-xs)',
+              backgroundColor: 'var(--bg-subtle)',
+              border: '1px solid var(--border-color)',
+              fontSize: '0.75rem',
+              color: 'var(--danger-text)',
               fontFamily: 'monospace',
               textAlign: 'left',
               wordBreak: 'break-all',
             }}
           >
-            Lỗi: {error.message}
+            {error.message}
           </div>
         )}
 
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginTop: '12px' }}>
+        <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
           <button
             onClick={() => reset()}
             id="retry-button"
             className="btn btn-primary"
-            style={{ minWidth: '130px' }}
+            style={{ fontSize: '0.8125rem' }}
           >
-            <RotateCcw size={16} /> Thử lại
+            <RotateCcw size={13} />
+            <span>Thử lại</span>
           </button>
-          <Link href="/" className="btn btn-secondary" style={{ minWidth: '130px' }}>
-            <Home size={16} /> Về trang chủ
+          <Link href="/" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            Về Trang chủ
           </Link>
         </div>
       </div>

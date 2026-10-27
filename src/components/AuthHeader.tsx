@@ -3,40 +3,28 @@
 import React from 'react';
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
-import { LogIn, LogOut, User as UserIcon, Shield, LayoutDashboard, Crown } from 'lucide-react';
+import { LogIn, LogOut, LayoutDashboard, Shield } from 'lucide-react';
 
 export default function AuthHeader() {
   const { data: session, status } = useSession();
 
   if (status === 'loading') {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <div
-          style={{
-            width: '80px',
-            height: '32px',
-            background: 'var(--bg-tertiary)',
-            borderRadius: 'var(--radius-md)',
-            animation: 'pulse 1.5s infinite',
-          }}
-        />
-      </div>
+      <div style={{ width: '70px', height: '28px', backgroundColor: 'var(--bg-subtle)', borderRadius: 'var(--radius-sm)' }} />
     );
   }
 
   if (!session || !session.user) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-        <Link
-          href="/login"
-          id="header-login-btn"
-          className="btn btn-primary"
-          style={{ padding: '8px 16px', fontSize: '0.85rem' }}
-        >
-          <LogIn size={15} />
-          <span>Đăng nhập</span>
-        </Link>
-      </div>
+      <Link
+        href="/login"
+        id="header-login-btn"
+        className="btn btn-primary"
+        style={{ padding: '6px 12px', fontSize: '0.8125rem' }}
+      >
+        <LogIn size={14} />
+        <span>Đăng nhập</span>
+      </Link>
     );
   }
 
@@ -44,79 +32,87 @@ export default function AuthHeader() {
   const isAdmin = user.role === 'admin';
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap' }}>
-      {/* Role and User info */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+      {/* User profile pill */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          padding: '3px 8px 3px 4px',
+          borderRadius: 'var(--radius-full)',
+          backgroundColor: 'var(--bg-subtle)',
+          border: '1px solid var(--border-color)',
+        }}
+      >
         <div
           style={{
-            width: '34px',
-            height: '34px',
+            width: '22px',
+            height: '22px',
             borderRadius: '50%',
-            background: isAdmin
-              ? 'linear-gradient(135deg, #e11d48, #be123c)'
-              : 'linear-gradient(135deg, #6366f1, #4338ca)',
+            backgroundColor: isAdmin ? 'var(--ptit-red)' : 'var(--primary)',
+            color: '#ffffff',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: 'white',
+            fontSize: '0.7rem',
             fontWeight: 700,
-            fontSize: '0.85rem',
-            border: '2px solid rgba(255, 255, 255, 0.15)',
           }}
         >
-          {isAdmin ? <Crown size={16} /> : user.name?.charAt(0) || 'U'}
+          {user.name?.charAt(0) || 'U'}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
-              {user.name}
-            </span>
-            <span className={`badge ${isAdmin ? 'badge-ptit' : 'badge-primary'}`} style={{ padding: '1px 6px', fontSize: '0.7rem' }}>
-              {isAdmin ? 'Lớp trưởng' : 'Sinh viên'}
-            </span>
-          </div>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-            {user.email}
-          </span>
-        </div>
+        <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-main)' }}>
+          {user.name?.split(' ')[0]}
+        </span>
+
+        <span
+          className={`badge ${isAdmin ? 'badge-ptit' : 'badge-neutral'}`}
+          style={{ fontSize: '0.68rem', padding: '1px 5px' }}
+        >
+          {isAdmin ? 'Admin' : 'SV'}
+        </span>
       </div>
 
       {/* Navigation Quick Links */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <Link
+        href="/dashboard"
+        id="header-dashboard-link"
+        className="btn btn-secondary"
+        style={{ padding: '5px 10px', fontSize: '0.8125rem' }}
+      >
+        <LayoutDashboard size={13} />
+        <span>Dashboard</span>
+      </Link>
+
+      {isAdmin && (
         <Link
-          href="/dashboard"
-          id="header-dashboard-link"
+          href="/admin"
+          id="header-admin-link"
           className="btn btn-secondary"
-          style={{ padding: '7px 12px', fontSize: '0.8rem' }}
+          style={{
+            padding: '5px 10px',
+            fontSize: '0.8125rem',
+            color: 'var(--ptit-red)',
+            borderColor: 'var(--ptit-red-border)',
+            backgroundColor: 'var(--ptit-red-surface)',
+          }}
         >
-          <LayoutDashboard size={14} />
-          <span>Dashboard</span>
+          <Shield size={13} />
+          <span>Quản trị</span>
         </Link>
+      )}
 
-        {isAdmin && (
-          <Link
-            href="/admin"
-            id="header-admin-link"
-            className="btn btn-ptit"
-            style={{ padding: '7px 12px', fontSize: '0.8rem' }}
-          >
-            <Shield size={14} />
-            <span>Quản trị</span>
-          </Link>
-        )}
-
-        <button
-          onClick={() => signOut({ callbackUrl: '/' })}
-          id="header-logout-btn"
-          className="btn btn-outline"
-          style={{ padding: '7px 12px', fontSize: '0.8rem', color: '#fca5a5', borderColor: 'rgba(239, 68, 68, 0.3)' }}
-          title="Đăng xuất"
-        >
-          <LogOut size={14} />
-          <span>Đăng xuất</span>
-        </button>
-      </div>
+      <button
+        onClick={() => signOut({ callbackUrl: '/' })}
+        id="header-logout-btn"
+        className="btn btn-ghost"
+        style={{ padding: '5px 8px', fontSize: '0.8125rem' }}
+        title="Đăng xuất"
+      >
+        <LogOut size={13} />
+        <span>Thoát</span>
+      </button>
     </div>
   );
 }

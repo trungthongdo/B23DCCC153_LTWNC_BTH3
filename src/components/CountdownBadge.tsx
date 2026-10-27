@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Clock, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Clock, Check } from 'lucide-react';
 
 interface CountdownBadgeProps {
   dueDate: string;
@@ -18,7 +18,7 @@ export default function CountdownBadge({ dueDate, isCompleted = false }: Countdo
 
     const updateCountdown = () => {
       if (isCompleted) {
-        setTimeText('Đã hoàn thành');
+        setTimeText('Đã xong');
         setStatus('completed');
         return;
       }
@@ -32,7 +32,7 @@ export default function CountdownBadge({ dueDate, isCompleted = false }: Countdo
         const overdueHours = Math.floor((Math.abs(diff) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         
         if (overdueDays === 0) {
-          setTimeText(`Quá hạn ${overdueHours} giờ`);
+          setTimeText(`Quá hạn ${overdueHours}h`);
         } else {
           setTimeText(`Quá hạn ${overdueDays} ngày`);
         }
@@ -45,7 +45,7 @@ export default function CountdownBadge({ dueDate, isCompleted = false }: Countdo
           setTimeText(`Còn ${hours} giờ`);
           setStatus('urgent');
         } else if (days <= 2) {
-          setTimeText(`Còn ${days} ngày ${hours}h`);
+          setTimeText(`Còn ${days}d ${hours}h`);
           setStatus('urgent');
         } else if (days <= 6) {
           setTimeText(`Còn ${days} ngày`);
@@ -58,15 +58,14 @@ export default function CountdownBadge({ dueDate, isCompleted = false }: Countdo
     };
 
     updateCountdown();
-    const interval = setInterval(updateCountdown, 60000); // cập nhật mỗi phút
+    const interval = setInterval(updateCountdown, 60000);
     return () => clearInterval(interval);
   }, [dueDate, isCompleted]);
 
-  // Server render fallback to prevent hydration mismatch
   if (!mounted) {
     return (
-      <span className="badge badge-neutral">
-        <Clock size={12} />
+      <span className="badge badge-neutral" style={{ fontSize: '0.75rem' }}>
+        <Clock size={11} />
         <span>Đang tính...</span>
       </span>
     );
@@ -75,8 +74,8 @@ export default function CountdownBadge({ dueDate, isCompleted = false }: Countdo
   if (isCompleted) {
     return (
       <span className="badge badge-success">
-        <CheckCircle2 size={12} />
-        <span>Đã hoàn thành</span>
+        <Check size={11} />
+        <span>Đã xong</span>
       </span>
     );
   }
@@ -84,7 +83,7 @@ export default function CountdownBadge({ dueDate, isCompleted = false }: Countdo
   if (status === 'overdue') {
     return (
       <span className="badge badge-danger">
-        <AlertCircle size={12} />
+        <Clock size={11} />
         <span>{timeText}</span>
       </span>
     );
@@ -92,8 +91,8 @@ export default function CountdownBadge({ dueDate, isCompleted = false }: Countdo
 
   if (status === 'urgent') {
     return (
-      <span className="badge badge-danger urgent-pulse">
-        <Clock size={12} />
+      <span className="badge badge-danger">
+        <Clock size={11} />
         <span>{timeText}</span>
       </span>
     );
@@ -102,15 +101,15 @@ export default function CountdownBadge({ dueDate, isCompleted = false }: Countdo
   if (status === 'warning') {
     return (
       <span className="badge badge-warning">
-        <Clock size={12} />
+        <Clock size={11} />
         <span>{timeText}</span>
       </span>
     );
   }
 
   return (
-    <span className="badge badge-primary">
-      <Clock size={12} />
+    <span className="badge badge-neutral">
+      <Clock size={11} />
       <span>{timeText}</span>
     </span>
   );

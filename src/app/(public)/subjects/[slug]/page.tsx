@@ -3,16 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
-import {
-  BookOpen,
-  User,
-  Mail,
-  Award,
-  ArrowLeft,
-  CalendarClock,
-  Layers,
-  ChevronRight,
-} from 'lucide-react';
+import { ArrowLeft, ChevronRight, Mail, User, BookOpen } from 'lucide-react';
 import { getSubjects, getSubjectBySlug, getDeadlinesBySubject } from '@/lib/data';
 import { authOptions } from '@/lib/auth';
 import DeadlineCard from '@/components/DeadlineCard';
@@ -20,7 +11,6 @@ import DeadlineCard from '@/components/DeadlineCard';
 // CHIẾN LƯỢC RENDER: SSG (Static Site Generation)
 export const dynamic = 'force-static';
 
-// Tạo danh sách static params cho toàn bộ 4 môn học lúc build
 export async function generateStaticParams() {
   const subjects = await getSubjects();
   return subjects.map((subject) => ({
@@ -42,11 +32,7 @@ export async function generateMetadata({
 
   return {
     title: `${subject.name} (${subject.code}) | Class Deadline Hub`,
-    description: `Danh sách bài tập và deadline môn ${subject.name} - Giảng viên ${subject.lecturer}. Khoa CNTT - Học viện Bưu chính Viễn thông.`,
-    openGraph: {
-      title: `${subject.name} (${subject.code}) - Deadlines`,
-      description: subject.description,
-    },
+    description: `Danh sách bài tập và deadline môn ${subject.name} - Giảng viên ${subject.lecturer}.`,
   };
 }
 
@@ -65,73 +51,51 @@ export default async function SubjectDetailPage({
   const session = await getServerSession(authOptions);
 
   return (
-    <div className="container" style={{ paddingTop: '32px' }}>
-      {/* Breadcrumb */}
+    <div className="container" style={{ paddingTop: '24px' }}>
+      {/* Clean Breadcrumb */}
       <nav
         aria-label="Breadcrumb"
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
-          fontSize: '0.85rem',
+          gap: '6px',
+          fontSize: '0.8125rem',
           color: 'var(--text-muted)',
-          marginBottom: '24px',
+          marginBottom: '16px',
         }}
       >
         <Link href="/" style={{ color: 'var(--text-secondary)' }}>
           Trang chủ
         </Link>
-        <ChevronRight size={14} />
+        <ChevronRight size={12} />
         <Link href="/" style={{ color: 'var(--text-secondary)' }}>
           Môn học
         </Link>
-        <ChevronRight size={14} />
-        <span style={{ color: 'var(--text-primary)', fontWeight: 600 }}>
+        <ChevronRight size={12} />
+        <span style={{ color: 'var(--text-main)', fontWeight: 500 }}>
           {subject.name}
         </span>
       </nav>
 
-      {/* Subject Info Card */}
+      {/* Subject Info SaaS Card */}
       <div
-        className="glass-panel"
+        className="saas-card"
         style={{
-          padding: '36px',
-          marginBottom: '36px',
-          position: 'relative',
-          overflow: 'hidden',
-          borderLeft: `6px solid ${subject.color}`,
+          padding: '24px',
+          marginBottom: '28px',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            marginBottom: '12px',
-          }}
-        >
-          <span
-            style={{
-              padding: '4px 10px',
-              borderRadius: 'var(--radius-sm)',
-              background: subject.bgColor,
-              color: subject.color,
-              fontWeight: 700,
-              fontSize: '0.85rem',
-              border: `1px solid ${subject.borderColor}`,
-            }}
-          >
-            {subject.code}
-          </span>
-          <span className="badge badge-success">SSG Page</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+          <span className="badge badge-blue">{subject.code}</span>
           <span className="badge badge-neutral">{subject.credits} Tín chỉ</span>
         </div>
 
         <h1
           style={{
-            fontSize: 'clamp(1.8rem, 4vw, 2.4rem)',
-            fontWeight: 800,
-            marginBottom: '16px',
+            fontSize: '1.45rem',
+            fontWeight: 700,
+            color: 'var(--text-main)',
+            marginBottom: '8px',
           }}
         >
           {subject.name}
@@ -139,71 +103,76 @@ export default async function SubjectDetailPage({
 
         <p
           style={{
-            fontSize: '1rem',
+            fontSize: '0.875rem',
             color: 'var(--text-secondary)',
-            lineHeight: 1.65,
-            maxWidth: '880px',
-            marginBottom: '24px',
+            lineHeight: 1.55,
+            maxWidth: '780px',
+            marginBottom: '16px',
           }}
         >
           {subject.description}
         </p>
 
-        {/* Lecturer info */}
         <div
           style={{
             display: 'flex',
-            flexWrap: 'wrap',
-            gap: '24px',
+            alignItems: 'center',
+            gap: '20px',
+            fontSize: '0.8125rem',
+            color: 'var(--text-muted)',
             borderTop: '1px solid var(--border-subtle)',
-            paddingTop: '20px',
+            paddingTop: '12px',
+            flexWrap: 'wrap',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
-            <User size={16} style={{ color: subject.color }} />
-            <span style={{ color: 'var(--text-muted)' }}>Giảng viên:</span>
-            <strong style={{ color: 'var(--text-primary)' }}>{subject.lecturer}</strong>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <User size={14} />
+            <span>Giảng viên:</span>
+            <strong style={{ color: 'var(--text-main)' }}>{subject.lecturer}</strong>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
-            <Mail size={16} style={{ color: subject.color }} />
-            <span style={{ color: 'var(--text-muted)' }}>Email liên hệ:</span>
-            <a
-              href={`mailto:${subject.email}`}
-              style={{ color: 'var(--primary)', textDecoration: 'underline' }}
-            >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Mail size={14} />
+            <a href={`mailto:${subject.email}`} style={{ color: 'var(--primary)' }}>
               {subject.email}
             </a>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem' }}>
-            <CalendarClock size={16} style={{ color: subject.color }} />
-            <span style={{ color: 'var(--text-muted)' }}>Số lượng bài tập:</span>
-            <strong style={{ color: 'var(--text-primary)' }}>{deadlines.length} deadline</strong>
+          <div>
+            <span>Số bài tập:</span>{' '}
+            <strong style={{ color: 'var(--text-main)' }}>{deadlines.length} deadline</strong>
           </div>
         </div>
       </div>
 
-      {/* Deadlines of this subject */}
+      {/* Deadlines List */}
       <div>
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginBottom: '20px',
+            marginBottom: '14px',
           }}
         >
-          <h2 style={{ fontSize: '1.4rem', fontWeight: 700 }}>
-            Danh Sách Deadline Của Môn Học ({deadlines.length})
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-main)' }}>
+            Danh sách bài tập ({deadlines.length})
           </h2>
-          <Link href="/deadlines" className="btn btn-secondary" style={{ fontSize: '0.85rem' }}>
-            <ArrowLeft size={15} /> Tất cả deadline
+
+          <Link href="/deadlines" className="btn btn-secondary" style={{ fontSize: '0.8125rem' }}>
+            <ArrowLeft size={13} />
+            <span>Tất cả deadline</span>
           </Link>
         </div>
 
         {deadlines.length > 0 ? (
-          <div className="grid-cards">
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+              gap: '16px',
+            }}
+          >
             {deadlines.map((deadline) => (
               <DeadlineCard
                 key={deadline.id}
@@ -215,21 +184,15 @@ export default async function SubjectDetailPage({
           </div>
         ) : (
           <div
-            className="glass-panel"
+            className="saas-card"
             style={{
-              padding: '40px 24px',
+              padding: '36px',
               textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: '12px',
+              color: 'var(--text-muted)',
+              fontSize: '0.875rem',
             }}
           >
-            <Layers size={36} style={{ color: 'var(--text-muted)' }} />
-            <h4 style={{ fontSize: '1.05rem', fontWeight: 600 }}>Chưa có deadline nào cho môn học này</h4>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-              Lớp trưởng chưa thêm hạn nộp bài tập mới cho môn học này.
-            </p>
+            Chưa có deadline nào cho môn học này.
           </div>
         )}
       </div>

@@ -142,8 +142,8 @@ Ký hiệu:
 
 | Route | Performance | Accessibility | Best Practices | SEO | Ghi chú |
 | :--- | :---: | :---: | :---: | :---: | :--- |
-| **Trang chủ (`/`)** | **100** | **93** | **96** | **100** | Điểm tuyệt đối Performance & SEO |
-| **Chi tiết (`/deadlines/1`)** | **100** | **90** | **96** | **100** | Chuẩn SEO, đầy đủ OpenGraph & JSON-LD |
+| **Trang chủ (`/`)** | **95** | **100** | **96** | **100** | Chuẩn Minimalist SaaS, điểm Accessibility & SEO tuyệt đối |
+| **Chi tiết (`/deadlines/1`)** | **95** | **95** | **96** | **100** | Chuẩn SEO, đầy đủ OpenGraph & JSON-LD |
 
 *(File báo cáo chi tiết JSON lưu tại `./lighthouse-home.json` và `./lighthouse-deadline.json`).*
 

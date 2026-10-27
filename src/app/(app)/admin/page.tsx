@@ -3,16 +3,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
-import {
-  Shield,
-  Crown,
-  Calendar,
-  Layers,
-  ArrowRight,
-  ExternalLink,
-  Users,
-  AlertTriangle,
-} from 'lucide-react';
+import { ArrowLeft, ExternalLink, Shield } from 'lucide-react';
 import { authOptions } from '@/lib/auth';
 import { can } from '@/lib/permissions';
 import { getDeadlines, getSubjects } from '@/lib/data';
@@ -34,12 +25,10 @@ export const metadata: Metadata = {
 export default async function AdminPage() {
   const session = await getServerSession(authOptions);
 
-  // 1. Kiểm tra xác thực (Bảo vệ đa tầng - Lớp Server Component)
   if (!session || !session.user) {
     redirect('/login?callbackUrl=/admin');
   }
 
-  // 2. Kiểm tra phân quyền đa tầng qua can(role, action)
   if (session.user.role !== 'admin' || !can(session.user.role, 'create_deadline')) {
     redirect('/403');
   }
@@ -48,85 +37,70 @@ export default async function AdminPage() {
   const deadlines = await getDeadlines();
 
   return (
-    <div className="container" style={{ paddingTop: '32px' }}>
-      {/* Header section */}
+    <div className="container" style={{ paddingTop: '24px' }}>
+      {/* Header */}
       <div
-        className="glass-panel"
         style={{
-          padding: '28px 32px',
-          marginBottom: '32px',
-          borderLeft: '6px solid var(--ptit-red)',
-          background: 'linear-gradient(135deg, rgba(225, 29, 72, 0.12) 0%, rgba(16, 22, 34, 0.8) 100%)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+          gap: '12px',
+          marginBottom: '20px',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-          <span className="badge badge-ptit">
-            <Crown size={12} /> Ban Cán Sự • Lớp Trưởng
-          </span>
-          <span className="badge badge-warning">SSR (Server-Side Rendering)</span>
-          <span className="badge badge-neutral">Defense-in-Depth Active</span>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '3px' }}>
+            <h1 style={{ fontSize: '1.4rem', fontWeight: 700, color: 'var(--text-main)', letterSpacing: '-0.01em' }}>
+              Quản trị Deadline Lớp
+            </h1>
+            <span className="badge badge-ptit">
+              Lớp trưởng (Admin)
+            </span>
+          </div>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.8125rem' }}>
+            Thêm mới, theo dõi và quản lý toàn bộ hạn nộp bài tập của lớp
+          </p>
         </div>
 
-        <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.2rem)', fontWeight: 800 }}>
-          Bảng Điều Khiển Quản Trị Deadline
-        </h1>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.925rem', marginTop: '6px' }}>
-          Thêm mới, chỉnh sửa và xoá các hạn nộp bài tập của cả lớp. Khi bạn thao tác, hệ thống sẽ thực hiện on-demand revalidation để cập nhật ngay lập tức các trang tĩnh ISR.
-        </p>
+        <Link href="/dashboard" className="btn btn-secondary" style={{ fontSize: '0.8125rem', padding: '6px 12px' }}>
+          <ArrowLeft size={13} />
+          <span>Về Dashboard</span>
+        </Link>
       </div>
 
       {/* Add Deadline Form */}
       <AdminDeadlineForm subjects={subjects} />
 
       {/* Deadlines Table */}
-      <div className="glass-panel" style={{ padding: '28px', overflowX: 'auto' }}>
+      <div className="saas-card" style={{ overflowX: 'auto' }}>
         <div
           style={{
+            padding: '14px 16px',
+            borderBottom: '1px solid var(--border-color)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginBottom: '20px',
-            flexWrap: 'wrap',
-            gap: '10px',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Layers size={18} style={{ color: 'var(--primary)' }} />
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 700 }}>
-              Danh Sách Quản Lý Tất Cả Deadline ({deadlines.length})
-            </h2>
+          <div style={{ fontSize: '0.9rem', fontWeight: 600, color: 'var(--text-main)' }}>
+            Danh sách quản trị bài tập ({deadlines.length})
           </div>
-
-          <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-            Dữ liệu lưu tại: <code>src/data/deadlines.json</code>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+            Lưu trữ: <code>deadlines.json</code>
           </span>
         </div>
 
-        <table
-          style={{
-            width: '100%',
-            borderCollapse: 'collapse',
-            fontSize: '0.875rem',
-            textAlign: 'left',
-          }}
-        >
+        <table className="saas-table">
           <thead>
-            <tr
-              style={{
-                borderBottom: '1px solid var(--border-medium)',
-                color: 'var(--text-secondary)',
-                fontSize: '0.8rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.04em',
-              }}
-            >
-              <th style={{ padding: '12px 14px' }}>ID</th>
-              <th style={{ padding: '12px 14px' }}>Tiêu đề</th>
-              <th style={{ padding: '12px 14px' }}>Môn học</th>
-              <th style={{ padding: '12px 14px' }}>Hạn chót</th>
-              <th style={{ padding: '12px 14px' }}>Ưu tiên</th>
-              <th style={{ padding: '12px 14px' }}>Đã nộp</th>
-              <th style={{ padding: '12px 14px', textAlign: 'right' }}>Hành động</th>
+            <tr>
+              <th style={{ width: '60px' }}>ID</th>
+              <th>Tiêu đề deadline</th>
+              <th style={{ width: '180px' }}>Môn học</th>
+              <th style={{ width: '150px' }}>Hạn chót</th>
+              <th style={{ width: '100px' }}>Ưu tiên</th>
+              <th style={{ width: '100px' }}>Đã nộp</th>
+              <th style={{ width: '120px', textAlign: 'right' }}>Thao tác</th>
             </tr>
           </thead>
           <tbody>
@@ -141,61 +115,51 @@ export default async function AdminPage() {
               }).format(dateObj);
 
               return (
-                <tr
-                  key={d.id}
-                  style={{
-                    borderBottom: '1px solid var(--border-subtle)',
-                    transition: 'background-color 0.15s',
-                  }}
-                  className="table-row-hover"
-                >
-                  <td style={{ padding: '14px', fontWeight: 600, color: 'var(--text-muted)' }}>
+                <tr key={d.id}>
+                  <td style={{ fontWeight: 600, color: 'var(--text-muted)' }}>
                     #{d.id}
                   </td>
-                  <td style={{ padding: '14px', maxWidth: '300px' }}>
+                  <td>
                     <Link
                       href={`/deadlines/${d.id}`}
-                      style={{ fontWeight: 600, color: 'var(--text-primary)' }}
-                      className="hover-underline"
+                      style={{ fontWeight: 600, color: 'var(--text-main)' }}
                     >
                       {d.title}
                     </Link>
                   </td>
-                  <td style={{ padding: '14px' }}>
-                    <span className="badge badge-primary" style={{ fontSize: '0.75rem' }}>
+                  <td>
+                    <span className="badge badge-blue">
                       {d.subjectName}
                     </span>
                   </td>
-                  <td style={{ padding: '14px', color: 'var(--text-secondary)' }}>
-                    {formatted}
-                  </td>
-                  <td style={{ padding: '14px' }}>
-                    <span
-                      className={`badge ${
-                        d.priority === 'high'
-                          ? 'badge-danger'
-                          : d.priority === 'medium'
-                          ? 'badge-warning'
-                          : 'badge-neutral'
-                      }`}
-                      style={{ fontSize: '0.72rem' }}
-                    >
-                      {d.priority === 'high' ? 'Cao' : d.priority === 'medium' ? 'Vừa' : 'Thấp'}
+                  <td>
+                    <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+                      {formatted}
                     </span>
                   </td>
-                  <td style={{ padding: '14px', color: 'var(--accent-emerald)', fontWeight: 600 }}>
-                    {d.completedBy.length} SV
+                  <td>
+                    {d.priority === 'high' ? (
+                      <span className="badge badge-danger">Cao</span>
+                    ) : d.priority === 'medium' ? (
+                      <span className="badge badge-warning">Vừa</span>
+                    ) : (
+                      <span className="badge badge-neutral">Thấp</span>
+                    )}
                   </td>
-                  <td style={{ padding: '14px', textAlign: 'right' }}>
-                    <div style={{ display: 'inline-flex', gap: '8px', alignItems: 'center' }}>
+                  <td>
+                    <span style={{ fontWeight: 600, color: 'var(--success-text)', fontSize: '0.8125rem' }}>
+                      {d.completedBy.length} SV
+                    </span>
+                  </td>
+                  <td style={{ textAlign: 'right' }}>
+                    <div style={{ display: 'inline-flex', gap: '4px', alignItems: 'center' }}>
                       <Link
                         href={`/deadlines/${d.id}`}
-                        className="btn btn-secondary"
-                        style={{ padding: '6px 10px', fontSize: '0.785rem' }}
-                        title="Xem trang công khai"
+                        className="btn btn-ghost"
+                        style={{ padding: '4px 6px', fontSize: '0.75rem' }}
+                        title="Xem trang"
                       >
                         <ExternalLink size={13} />
-                        <span>Xem</span>
                       </Link>
 
                       <DeleteDeadlineButton deadlineId={d.id} deadlineTitle={d.title} />
