@@ -2,7 +2,6 @@ import React from 'react';
 import type { Metadata } from 'next';
 import DashboardSidebar from '@/components/DashboardSidebar';
 
-// SEO: Yêu cầu không lập chỉ mục cho trang /dashboard
 export const metadata: Metadata = {
   title: 'Dashboard Cá Nhân | Class Deadline Hub PTIT',
   description: 'Quản lý và theo dõi tiến độ nộp bài tập cá nhân.',

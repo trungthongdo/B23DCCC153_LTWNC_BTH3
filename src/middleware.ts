@@ -12,7 +12,6 @@ export async function middleware(req: NextRequest) {
   const isAuth = !!token;
   const userRole = (token?.role as Role) || 'guest';
 
-  // 1. Bảo vệ route /dashboard (yêu cầu đăng nhập)
   if (pathname.startsWith('/dashboard')) {
     if (!isAuth) {
       const loginUrl = new URL('/login', req.url);
@@ -21,7 +20,6 @@ export async function middleware(req: NextRequest) {
     }
   }
 
-  // 2. Bảo vệ route /admin (chỉ admin có quyền)
   if (pathname.startsWith('/admin')) {
     if (!isAuth) {
       const loginUrl = new URL('/login', req.url);
@@ -29,7 +27,6 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    // Kiểm tra quyền thông qua hàm can() và vai trò admin
     if (userRole !== 'admin' || !can(userRole, 'create_deadline')) {
       const forbiddenUrl = new URL('/403', req.url);
       return NextResponse.redirect(forbiddenUrl);

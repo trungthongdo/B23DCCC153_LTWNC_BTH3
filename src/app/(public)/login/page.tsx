@@ -5,7 +5,6 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import LoginForm from '@/components/LoginForm';
 
-// SEO: Yêu cầu không lập chỉ mục cho trang /login
 export const metadata: Metadata = {
   title: 'Đăng Nhập | Class Deadline Hub PTIT',
   description: 'Đăng nhập vào hệ thống cổng thông tin deadline lớp học PTIT.',

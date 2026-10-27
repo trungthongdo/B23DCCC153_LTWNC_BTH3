@@ -6,7 +6,6 @@ const SUBJECTS_FILE = path.join(process.cwd(), 'src', 'data', 'subjects.json');
 const DEADLINES_FILE = path.join(process.cwd(), 'src', 'data', 'deadlines.json');
 const USERS_FILE = path.join(process.cwd(), 'src', 'data', 'users.json');
 
-// --- SUBJECTS ---
 export async function getSubjects(): Promise<Subject[]> {
   try {
     const data = await fs.readFile(SUBJECTS_FILE, 'utf-8');
@@ -22,7 +21,6 @@ export async function getSubjectBySlug(slug: string): Promise<Subject | undefine
   return subjects.find((s) => s.slug === slug);
 }
 
-// --- DEADLINES ---
 export async function getDeadlines(): Promise<Deadline[]> {
   try {
     const data = await fs.readFile(DEADLINES_FILE, 'utf-8');
@@ -52,7 +50,6 @@ export async function addDeadline(
 ): Promise<Deadline> {
   const deadlines = await getDeadlines();
   
-  // Tạo ID mới (max id + 1)
   const maxId = deadlines.reduce((max, d) => Math.max(max, parseInt(d.id, 10) || 0), 0);
   const newId = (maxId + 1).toString();
 
@@ -103,7 +100,6 @@ export async function toggleCompleteDeadline(
   return { success: true, completed: !isCompleted };
 }
 
-// --- USERS ---
 export async function getUsers(): Promise<User[]> {
   try {
     const data = await fs.readFile(USERS_FILE, 'utf-8');

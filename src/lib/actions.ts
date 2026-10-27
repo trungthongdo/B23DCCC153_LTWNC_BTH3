@@ -13,10 +13,6 @@ import {
 } from '@/lib/data';
 import { Priority, DeadlineType } from '@/types';
 
-/**
- * Server Action: Đánh dấu hoàn thành / chưa hoàn thành deadline
- * Yêu cầu quyền: 'toggle_complete' (user hoặc admin)
- */
 export async function toggleCompleteAction(deadlineId: string) {
   try {
     const session = await getServerSession(authOptions);
@@ -35,7 +31,6 @@ export async function toggleCompleteAction(deadlineId: string) {
       return { success: false, error: 'Không tìm thấy deadline.' };
     }
 
-    // Làm mới dữ liệu ở các trang liên quan
     revalidatePath('/deadlines');
     revalidatePath(`/deadlines/${deadlineId}`);
     revalidatePath('/dashboard');
@@ -48,11 +43,6 @@ export async function toggleCompleteAction(deadlineId: string) {
   }
 }
 
-/**
- * Server Action: Thêm deadline mới (chỉ admin)
- * Yêu cầu quyền: 'create_deadline' (chỉ admin)
- * Tự động revalidate on-demand để /deadlines và /deadlines/[id] cập nhật ngay lập tức
- */
 export async function createDeadlineAction(formData: FormData) {
   try {
     const session = await getServerSession(authOptions);
@@ -61,12 +51,10 @@ export async function createDeadlineAction(formData: FormData) {
       return { success: false, error: 'Yêu cầu đăng nhập.' };
     }
 
-    // Kiểm tra quyền chặt chẽ thông qua can()
     if (!can(session.user.role, 'create_deadline')) {
       return { success: false, error: 'Từ chối quyền: Chỉ Lớp trưởng (Admin) mới có quyền thêm deadline.' };
     }
 
-    // Lấy dữ liệu và validate đầu vào
     const title = formData.get('title')?.toString().trim();
     const subjectSlug = formData.get('subjectSlug')?.toString().trim();
     const dueDate = formData.get('dueDate')?.toString().trim();
@@ -84,44 +72,39 @@ export async function createDeadlineAction(formData: FormData) {
 
     const subject = await getSubjectBySlug(subjectSlug);
     if (!subject) {
-      return { success: false, error: 'Môn học không tồn tại trong hệ thống.' };
+      return { success: false, error: 'Môn học không tồn tại trên hệ thống.' };
     }
 
     if (!dueDate) {
-      return { success: false, error: 'Vui lòng chọn hạn chót.' };
+      return { success: false, error: 'Vui lòng chọn hạn chót nộp bài.' };
     }
 
-    const parsedDate = new Date(dueDate);
-    if (isNaN(parsedDate.getTime())) {
-      return { success: false, error: 'Hạn chót không hợp lệ.' };
+    const parsedDueDate = new Date(dueDate);
+    if (isNaN(parsedDueDate.getTime())) {
+      return { success: false, error: 'Định dạng ngày hạn chót không hợp lệ.' };
     }
 
-    if (!description || description.length < 5) {
-      return { success: false, error: 'Mô tả chi tiết phải có ít nhất 5 ký tự.' };
-    }
-
-    const validPriorities: Priority[] = ['high', 'medium', 'low'];
+    const validPriorities: Priority[] = ['low', 'medium', 'high'];
     if (!validPriorities.includes(priority)) {
       return { success: false, error: 'Mức độ ưu tiên không hợp lệ.' };
     }
 
-    const validTypes: DeadlineType[] = ['assignment', 'project', 'quiz', 'exam'];
+    const validTypes: DeadlineType[] = ['assignment', 'quiz', 'project', 'exam'];
     if (!validTypes.includes(type)) {
-      return { success: false, error: 'Phân loại bài tập không hợp lệ.' };
+      return { success: false, error: 'Loại bài tập không hợp lệ.' };
     }
 
     const newDeadline = await addDeadline({
       title,
       subjectSlug,
       subjectName: subject.name,
-      description,
-      dueDate: parsedDate.toISOString(),
+      description: description || 'Không có mô tả chi tiết.',
+      dueDate: parsedDueDate.toISOString(),
       priority,
       type,
       createdBy: session.user.email || 'admin@ptit.edu.vn',
     });
 
-    // Revalidate ngay lập tức toàn bộ các trang (ISR on-demand revalidation)
     revalidatePath('/');
     revalidatePath('/deadlines');
     revalidatePath(`/deadlines/${newDeadline.id}`);
@@ -136,11 +119,6 @@ export async function createDeadlineAction(formData: FormData) {
   }
 }
 
-/**
- * Server Action: Xoá deadline (chỉ admin)
- * Yêu cầu quyền: 'delete_deadline' (chỉ admin)
- * Revalidate on-demand ngay lập tức
- */
 export async function deleteDeadlineAction(id: string) {
   try {
     const session = await getServerSession(authOptions);
@@ -149,7 +127,6 @@ export async function deleteDeadlineAction(id: string) {
       return { success: false, error: 'Yêu cầu đăng nhập.' };
     }
 
-    // Kiểm tra quyền chặt chẽ thông qua can()
     if (!can(session.user.role, 'delete_deadline')) {
       return { success: false, error: 'Từ chối quyền: Chỉ Lớp trưởng (Admin) mới có quyền xoá deadline.' };
     }
@@ -164,7 +141,6 @@ export async function deleteDeadlineAction(id: string) {
       return { success: false, error: 'Không thể xoá deadline.' };
     }
 
-    // Revalidate on-demand ngay lập tức
     revalidatePath('/');
     revalidatePath('/deadlines');
     revalidatePath(`/deadlines/${id}`);

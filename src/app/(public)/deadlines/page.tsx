@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { getDeadlines, getSubjects } from '@/lib/data';
 import DeadlinesFilter from '@/components/DeadlinesFilter';
 
-// CHIẾN LƯỢC RENDER: ISR (Incremental Static Regeneration), làm mới sau 60 giây
 export const revalidate = 60;
 
 export const metadata: Metadata = {
@@ -18,7 +17,6 @@ export default async function DeadlinesPage() {
 
   return (
     <div className="container" style={{ paddingTop: '24px' }}>
-      {/* Header */}
       <div style={{ marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
           <h1 style={{ fontSize: '1.45rem', fontWeight: 700, color: 'var(--text-main)', letterSpacing: '-0.01em' }}>

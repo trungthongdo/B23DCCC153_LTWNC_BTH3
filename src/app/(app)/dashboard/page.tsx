@@ -7,7 +7,6 @@ import { authOptions } from '@/lib/auth';
 import { getDeadlines } from '@/lib/data';
 import DeadlineCard from '@/components/DeadlineCard';
 
-// CHIẾN LƯỢC RENDER: SSR (Server-Side Rendering)
 export const dynamic = 'force-dynamic';
 
 export default async function DashboardPage() {

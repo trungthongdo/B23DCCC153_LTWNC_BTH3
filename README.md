@@ -166,20 +166,17 @@ Ký hiệu:
 Khi mở `view-source:http://localhost:3000/deadlines/1` (hoặc thực hiện `curl http://localhost:3000/deadlines/1`), toàn bộ tiêu đề bài tập, mô tả môn học, OpenGraph meta tags và thẻ dữ liệu cấu trúc JSON-LD đều **có sẵn 100% trong mã nguồn HTML ban đầu** do Server trả về (chứng minh không phải render trống rồi mới gọi AJAX phía client như CSR):
 
 ```html
-<!-- Trích xuất từ view-source:http://localhost:3000/deadlines/1 -->
 <head>
   <meta charSet="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Báo cáo BTTH 2: Next.js CSR vs SSR | Lập trình Web Nâng cao - Class Deadline Hub</title>
   <meta name="description" content="Hạn chót nộp bài: 21/10/2026. Nộp file PDF báo cáo so sánh chi tiết hiệu năng TTFB, FCP giữa Client-Side Rendering và Server-Side Rendering..."/>
   
-  <!-- OpenGraph Tags -->
   <meta property="og:title" content="Báo cáo BTTH 2: Next.js CSR vs SSR - Lập trình Web Nâng cao"/>
   <meta property="og:description" content="Hạn chót: 21/10/2026. Cổng thông tin deadline lớp học PTIT."/>
   <meta property="og:url" content="/deadlines/1"/>
   <meta property="og:image" content="http://localhost:3000/deadlines/1/opengraph-image"/>
   
-  <!-- Structured Data (JSON-LD BreadcrumbList) -->
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -208,7 +205,6 @@ Khi mở `view-source:http://localhost:3000/deadlines/1` (hoặc thực hiện `
   </script>
 </head>
 <body>
-  <!-- Nội dung deadline được Server tạo sẵn (HTML tĩnh) -->
   <h1>Báo cáo BTTH 2: Next.js CSR vs SSR</h1>
   <p>Nộp file PDF báo cáo so sánh chi tiết hiệu năng TTFB, FCP giữa Client-Side Rendering và Server-Side Rendering...</p>
 </body>

@@ -29,10 +29,10 @@ export interface Deadline {
   subjectSlug: string;
   subjectName: string;
   description: string;
-  dueDate: string; // ISO string
+  dueDate: string;
   priority: Priority;
   type: DeadlineType;
-  completedBy: string[]; // List of user IDs who marked this completed
+  completedBy: string[];
   createdAt: string;
   createdBy: string;
 }

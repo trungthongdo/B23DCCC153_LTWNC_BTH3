@@ -7,7 +7,6 @@ import { authOptions } from '@/lib/auth';
 import DeadlineCard from '@/components/DeadlineCard';
 import HomeHeroActions from '@/components/HomeHeroActions';
 
-// CHIẾN LƯỢC RENDER: SSG (Static Site Generation)
 export const dynamic = 'force-static';
 
 export default async function HomePage() {
@@ -16,7 +15,6 @@ export default async function HomePage() {
   const session = await getServerSession(authOptions);
 
   const now = Date.now();
-  // Sắp xếp các deadline sắp đến hạn lên đầu
   const upcomingDeadlines = [...deadlines]
     .filter((d) => new Date(d.dueDate).getTime() >= now)
     .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime())
@@ -24,7 +22,6 @@ export default async function HomePage() {
 
   return (
     <div className="container" style={{ paddingTop: '28px' }}>
-      {/* Clean Intro Banner */}
       <section
         style={{
           padding: '24px 0 28px 0',
@@ -66,7 +63,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Section 1: Upcoming Deadlines */}
       <section style={{ marginBottom: '36px' }}>
         <div
           style={{
@@ -118,7 +114,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Section 2: Subjects */}
       <section style={{ marginBottom: '24px' }}>
         <div style={{ marginBottom: '14px' }}>
           <h2 style={{ fontSize: '1.15rem', fontWeight: 600, color: 'var(--text-main)' }}>

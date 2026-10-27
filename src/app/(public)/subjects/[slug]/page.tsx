@@ -8,7 +8,6 @@ import { getSubjects, getSubjectBySlug, getDeadlinesBySubject } from '@/lib/data
 import { authOptions } from '@/lib/auth';
 import DeadlineCard from '@/components/DeadlineCard';
 
-// CHIẾN LƯỢC RENDER: SSG (Static Site Generation)
 export const dynamic = 'force-static';
 
 export async function generateStaticParams() {

@@ -7,7 +7,6 @@ import { getDeadlines, getDeadlineById, getSubjectBySlug } from '@/lib/data';
 import CountdownBadge from '@/components/CountdownBadge';
 import CompleteButton from '@/components/CompleteButton';
 
-// CHIẾN LƯỢC RENDER: ISR (Incremental Static Regeneration)
 export const revalidate = 60;
 
 export async function generateStaticParams() {
@@ -84,7 +83,6 @@ export default async function DeadlineDetailPage({
     minute: '2-digit',
   }).format(dueDateObj);
 
-  // Structured Data (JSON-LD) BreadcrumbList
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -112,13 +110,11 @@ export default async function DeadlineDetailPage({
 
   return (
     <div className="container" style={{ paddingTop: '24px' }}>
-      {/* Structured data JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Clean Breadcrumb */}
       <nav
         aria-label="Breadcrumb"
         style={{
@@ -144,7 +140,6 @@ export default async function DeadlineDetailPage({
         </span>
       </nav>
 
-      {/* Unified Main SaaS Container */}
       <div
         className="saas-card"
         style={{
@@ -153,7 +148,6 @@ export default async function DeadlineDetailPage({
           margin: '0 auto',
         }}
       >
-        {/* Top meta tags */}
         <div
           style={{
             display: 'flex',

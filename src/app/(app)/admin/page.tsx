@@ -10,7 +10,6 @@ import { getDeadlines, getSubjects } from '@/lib/data';
 import AdminDeadlineForm from '@/components/AdminDeadlineForm';
 import DeleteDeadlineButton from '@/components/DeleteDeadlineButton';
 
-// CHIẾN LƯỢC RENDER: SSR (Server-Side Rendering)
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
