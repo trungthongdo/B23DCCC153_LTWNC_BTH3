@@ -1,19 +1,21 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { Subject, Deadline, User } from '@/types';
+// Import tĩnh để JSON được bundle vào build (Vercel không có sẵn file src/ lúc runtime)
+import subjectsSeed from '@/data/subjects.json';
+import deadlinesSeed from '@/data/deadlines.json';
+import usersSeed from '@/data/users.json';
 
-const SUBJECTS_FILE = path.join(process.cwd(), 'src', 'data', 'subjects.json');
-const DEADLINES_FILE = path.join(process.cwd(), 'src', 'data', 'deadlines.json');
-const USERS_FILE = path.join(process.cwd(), 'src', 'data', 'users.json');
+const IS_VERCEL = !!process.env.VERCEL;
+// Trên Vercel filesystem là read-only, chỉ /tmp ghi được (không bền vững giữa các instance)
+const DEADLINES_FILE = IS_VERCEL
+  ? path.join('/tmp', 'deadlines.json')
+  : path.join(process.cwd(), 'src', 'data', 'deadlines.json');
+
+let deadlinesCache: Deadline[] | null = null;
 
 export async function getSubjects(): Promise<Subject[]> {
-  try {
-    const data = await fs.readFile(SUBJECTS_FILE, 'utf-8');
-    return JSON.parse(data) as Subject[];
-  } catch (error) {
-    console.error('Error reading subjects:', error);
-    return [];
-  }
+  return structuredClone(subjectsSeed) as Subject[];
 }
 
 export async function getSubjectBySlug(slug: string): Promise<Subject | undefined> {
@@ -24,11 +26,12 @@ export async function getSubjectBySlug(slug: string): Promise<Subject | undefine
 export async function getDeadlines(): Promise<Deadline[]> {
   try {
     const data = await fs.readFile(DEADLINES_FILE, 'utf-8');
-    return JSON.parse(data) as Deadline[];
-  } catch (error) {
-    console.error('Error reading deadlines:', error);
-    return [];
+    deadlinesCache = JSON.parse(data) as Deadline[];
+  } catch {
+    // Chưa có file ghi (lần đầu trên Vercel) hoặc lỗi đọc -> dùng cache / dữ liệu gốc đã bundle
+    if (!deadlinesCache) deadlinesCache = structuredClone(deadlinesSeed) as Deadline[];
   }
+  return structuredClone(deadlinesCache);
 }
 
 export async function getDeadlineById(id: string): Promise<Deadline | undefined> {
@@ -42,7 +45,12 @@ export async function getDeadlinesBySubject(subjectSlug: string): Promise<Deadli
 }
 
 export async function saveDeadlines(deadlines: Deadline[]): Promise<void> {
-  await fs.writeFile(DEADLINES_FILE, JSON.stringify(deadlines, null, 2), 'utf-8');
+  deadlinesCache = structuredClone(deadlines);
+  try {
+    await fs.writeFile(DEADLINES_FILE, JSON.stringify(deadlines, null, 2), 'utf-8');
+  } catch (error) {
+    console.error('Error writing deadlines (kept in memory):', error);
+  }
 }
 
 export async function addDeadline(
@@ -101,13 +109,7 @@ export async function toggleCompleteDeadline(
 }
 
 export async function getUsers(): Promise<User[]> {
-  try {
-    const data = await fs.readFile(USERS_FILE, 'utf-8');
-    return JSON.parse(data) as User[];
-  } catch (error) {
-    console.error('Error reading users:', error);
-    return [];
-  }
+  return structuredClone(usersSeed) as User[];
 }
 
 export async function getUserByEmail(email: string): Promise<User | undefined> {

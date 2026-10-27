@@ -38,7 +38,8 @@ export default function LoginForm() {
         window.location.href = callbackUrl;
       }
     } catch (err: any) {
-      if (typeof window !== 'undefined' && window.location.port !== '3000') {
+      const isLocal = typeof window !== 'undefined' && window.location.hostname === 'localhost';
+      if (isLocal && window.location.port !== '3000') {
         setError(`Bạn đang mở cổng ${window.location.port}. Máy chủ hiện tại đang chạy tại http://localhost:3000. Vui lòng chuyển sang http://localhost:3000/login.`);
       } else {
         setError(err?.message || 'Đã xảy ra lỗi kết nối, vui lòng thử lại.');
