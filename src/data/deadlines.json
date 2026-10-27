@@ -1,5 +1,20 @@
 [
   {
+    "title": "da da da",
+    "subjectSlug": "lap-trinh-web-nang-cao",
+    "subjectName": "Lập trình Web Nâng cao",
+    "description": "aaaaaaa",
+    "dueDate": "2026-10-27T22:21:00.000Z",
+    "priority": "high",
+    "type": "project",
+    "createdBy": "admin@ptit.edu.vn",
+    "id": "13",
+    "completedBy": [
+      "2"
+    ],
+    "createdAt": "2026-10-27T08:22:06.993Z"
+  },
+  {
     "id": "1",
     "title": "Báo cáo BTTH 2: Next.js CSR vs SSR",
     "subjectSlug": "lap-trinh-web-nang-cao",
@@ -110,7 +125,9 @@
     "dueDate": "2026-11-08T23:59:00.000Z",
     "priority": "medium",
     "type": "assignment",
-    "completedBy": [],
+    "completedBy": [
+      "2"
+    ],
     "createdAt": "2026-10-19T07:30:00.000Z",
     "createdBy": "admin@ptit.edu.vn"
   },
