@@ -272,7 +272,7 @@ LTWNCBTTH3/
 ├── package.json                 # Khai báo dependencies & scripts
 ├── tsconfig.json                # TypeScript config
 ├── tests/
-│   └── permissions.test.ts      # 15 Unit tests cho can(role, action)
+│   └── permissions.test.ts      # 16 Unit tests cho can(role, action)
 └── src/
     ├── app/
     │   ├── (public)/            # Route group công khai
@@ -299,7 +299,7 @@ LTWNCBTTH3/
     │   │       └── profile/     # [SSR] Xem hồ sơ & kiểm tra quyền can()
     │   ├── api/auth/[...nextauth]/route.ts # NextAuth Route Handler
     │   ├── globals.css          # Hệ thống CSS Tokens & Glassmorphism
-    │   ├── layout.tsx           # Root Layout (Font Google Be Vietnam Pro)
+    │   ├── layout.tsx           # Root Layout (Font Google Inter tiếng Việt)
     │   ├── loading.tsx          # Hiệu ứng tải trang Skeleton / Spinner
     │   ├── error.tsx            # Bắt lỗi toàn cục với nút "Thử lại"
     │   ├── not-found.tsx        # Trang 404 tùy biến
@@ -316,7 +316,8 @@ LTWNCBTTH3/
     │   ├── DeleteDeadlineButton.tsx  # Nút xoá deadline kèm modal xác nhận
     │   ├── Footer.tsx                # Chân trang
     │   ├── Header.tsx                # Thanh điều hướng chính
-    │   ├── LoginForm.tsx             # Form đăng nhập với quick fill demo
+    │   ├── HomeHeroActions.tsx       # Nút điều hướng thông minh theo phiên đăng nhập
+    │   ├── LoginForm.tsx             # Form đăng nhập với quick demo
     │   └── SessionProvider.tsx       # NextAuth SessionProvider wrapper
     ├── data/                    # Nơi lưu trữ dữ liệu JSON phía Server
     │   ├── deadlines.json       # 12 bài tập của 4 môn học
@@ -331,3 +332,20 @@ LTWNCBTTH3/
         ├── index.ts             # Strict Role ('admin' | 'user' | 'guest')
         └── next-auth.d.ts       # Module augmentation cho NextAuth
 ```
+
+---
+
+## 10. Danh mục kiểm tra Sản phẩm nộp (Checklist)
+
+Đối chiếu đầy đủ các yêu cầu bàn giao của đề bài:
+
+- [x] **Mã nguồn sạch:** Đóng gói thư mục mã nguồn đầy đủ, không kèm `node_modules` và `.next`.
+- [x] **Cách chạy:** Đã trình bày chi tiết các bước tại **[Mục 3](#3-hướng-dẫn-cài-đặt--cách-chạy)**.
+- [x] **Ảnh kết quả `npm run build` và lý do chọn chiến lược:** Đã có ảnh chụp giao diện terminal sắc nét và bảng giải thích kỹ thuật tại **[Mục 4](#4-kết-quả-npm-run-build--lý-do-chọn-chiến-lược-rendering)**.
+- [x] **Điểm Lighthouse:** Đã có ảnh chụp biểu đồ điểm số 95–100 và bảng tổng hợp tại **[Mục 5](#5-kết-quả-đo-kiểm-lighthouse-production)**.
+- [x] **Ảnh `view-source` của `/deadlines/1`:** Đã có ảnh chụp màn hình trình duyệt hiển thị mã nguồn HTML tĩnh và structured data tại **[Mục 6](#6-bằng-chứng-server-render-view-source-của-deadlines1)**.
+- [x] **Trả lời 2 câu hỏi lý thuyết:** Đã trả lời chuyên sâu, đầy đủ dẫn chứng tại **[Mục 7](#7-trả-lời-2-câu-hỏi-lý-thuyết-buổi-7--8)**:
+  - *Câu hỏi 1:* Vì sao `/deadlines/[id]` dùng ISR?
+  - *Câu hỏi 2:* Nếu chỉ dùng Middleware để bảo vệ `/admin` thì có rủi ro gì?
+- [x] **Các điểm cộng (+1 điểm):** Đã hoàn thành cả 3 tiêu chí: Đăng nhập GitHub OAuth, Triển khai Vercel, và 16 Unit test Jest cho `can()` tại **[Mục 8](#8-các-điểm-cộng-1-điểm)**.
+
