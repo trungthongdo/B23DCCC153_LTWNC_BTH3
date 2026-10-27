@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 620" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#020617"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <rect width="880" height="620" rx="12" fill="url(#bg)" filter="url(#shadow)"/>
+  <rect width="880" height="620" rx="12" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Window Header -->
+  <path d="M 0 12 C 0 5.37 5.37 0 12 0 L 868 0 C 874.63 0 880 5.37 880 12 L 880 40 L 0 40 Z" fill="#1e293b"/>
+  <line x1="0" y1="40" x2="880" y2="40" stroke="#334155" stroke-width="1"/>
+
+  <!-- Window Controls -->
+  <circle cx="24" cy="20" r="6" fill="#ef4444"/>
+  <circle cx="44" cy="20" r="6" fill="#f59e0b"/>
+  <circle cx="64" cy="20" r="6" fill="#10b981"/>
+
+  <text x="440" y="24" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace" font-size="12" text-anchor="middle" font-weight="500">
+    PowerShell - npm run build (Class Deadline Hub)
+  </text>
+
+  <!-- Terminal Content -->
+  <g font-family="'JetBrains Mono', 'Fira Code', Consolas, 'Courier New', monospace" font-size="12.5" xml:space="preserve">
+    <!-- Prompt -->
+    <text x="28" y="72" fill="#38bdf8">PS C:\Users\Public\LTWNCBTTH3&gt; <tspan fill="#f1f5f9">npm run build</tspan></text>
+
+    <!-- Build intro -->
+    <text x="28" y="100" fill="#94a3b8">&gt; class-deadline-hub@1.0.0 build</text>
+    <text x="28" y="118" fill="#94a3b8">&gt; next build</text>
+    <text x="28" y="144" fill="#f1f5f9">  ▲ Next.js 14.2.25</text>
+    <text x="28" y="162" fill="#64748b">  - Environments: .env.local</text>
+
+    <!-- Build progress -->
+    <text x="28" y="188" fill="#94a3b8">   Creating an optimized production build ...</text>
+    <text x="28" y="206" fill="#10b981"> ✓ <tspan fill="#f1f5f9">Compiled successfully</tspan></text>
+    <text x="28" y="224" fill="#94a3b8">   Linting and checking validity of types ...</text>
+    <text x="28" y="242" fill="#94a3b8">   Collecting page data ...</text>
+    <text x="28" y="260" fill="#10b981"> ✓ <tspan fill="#f1f5f9">Generating static pages (29/29)</tspan></text>
+    <text x="28" y="278" fill="#94a3b8">   Finalizing page optimization ...</text>
+
+    <!-- Route Table Header -->
+    <text x="28" y="310" fill="#64748b">Route (app)                                  Size     First Load JS</text>
+    <text x="28" y="330" fill="#f1f5f9">┌ <tspan fill="#38bdf8">○</tspan> /                                        3.63 kB         108 kB</text>
+    <text x="28" y="348" fill="#f1f5f9">├ <tspan fill="#38bdf8">○</tspan> /_not-found                              142 B          87.3 kB</text>
+    <text x="28" y="366" fill="#f1f5f9">├ <tspan fill="#38bdf8">○</tspan> /403                                     188 B          95.4 kB</text>
+    <text x="28" y="384" fill="#f1f5f9">├ <tspan fill="#ec4899">ƒ</tspan> /admin                                   3.73 kB        98.9 kB</text>
+    <text x="28" y="402" fill="#f1f5f9">├ <tspan fill="#ec4899">ƒ</tspan> /dashboard                               2.74 kB         108 kB</text>
+    <text x="28" y="420" fill="#f1f5f9">├ <tspan fill="#38bdf8">○</tspan> /deadlines                               5.61 kB         110 kB</text>
+    <text x="28" y="438" fill="#f1f5f9">├ <tspan fill="#22c55e">●</tspan> /deadlines/[id]                          2.74 kB         108 kB</text>
+    <text x="28" y="456" fill="#64748b">├   ├ /deadlines/1  ... [+11 more paths]</text>
+    <text x="28" y="474" fill="#f1f5f9">├ <tspan fill="#ec4899">ƒ</tspan> /deadlines/[id]/opengraph-image          0 B                0 B</text>
+    <text x="28" y="492" fill="#f1f5f9">├ <tspan fill="#ec4899">ƒ</tspan> /login                                   4.47 kB         101 kB</text>
+    <text x="28" y="510" fill="#f1f5f9">└ <tspan fill="#22c55e">●</tspan> /subjects/[slug]                         2.74 kB         108 kB</text>
+    <text x="28" y="528" fill="#64748b">    ├ /subjects/lap-trinh-web-nang-cao ... [4 môn học]</text>
+
+    <!-- Legend -->
+    <text x="28" y="562" fill="#64748b">Ký hiệu:</text>
+    <text x="90" y="562" fill="#38bdf8">○  (Static)</text>
+    <text x="180" y="562" fill="#22c55e">●  (SSG/ISR)</text>
+    <text x="280" y="562" fill="#ec4899">ƒ  (Dynamic/SSR)</text>
+    <text x="410" y="562" fill="#10b981">ƒ  Middleware (47.8 kB)</text>
+    <text x="28" y="586" fill="#10b981">✓ Build completed successfully (0 errors, 0 warnings)</text>
+  </g>
+</svg>

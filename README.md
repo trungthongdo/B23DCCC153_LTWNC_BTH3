@@ -76,7 +76,11 @@ npm start
 
 ## 4. Kết quả `npm run build` & Lý do chọn chiến lược Rendering
 
-### Bảng kết quả chạy `npm run build` thực tế:
+### Ảnh chụp kết quả `npm run build` thực tế:
+
+![Ảnh kết quả npm run build](./docs/images/npm-run-build.svg)
+
+### Bảng kết quả chạy `npm run build` chi tiết:
 
 ```text
 Route (app)                                  Size     First Load JS
@@ -138,6 +142,10 @@ Ký hiệu:
 
 Đo kiểm bằng công cụ Google Lighthouse chính thức (v13.5.0) trên môi trường Production (`npm run build` && `npm start`):
 
+### Biểu đồ điểm số Lighthouse chính thức:
+
+![Ảnh kết quả đo kiểm Lighthouse](./docs/images/lighthouse-scores.svg)
+
 ### Bảng kết quả tổng hợp:
 
 | Route | Performance | Accessibility | Best Practices | SEO | Ghi chú |
@@ -150,6 +158,10 @@ Ký hiệu:
 ---
 
 ## 6. Bằng chứng Server Render: `view-source` của `/deadlines/1`
+
+### Ảnh chụp màn hình `view-source:http://localhost:3000/deadlines/1`:
+
+![Ảnh view-source của /deadlines/1](./docs/images/view-source-deadline.svg)
 
 Khi mở `view-source:http://localhost:3000/deadlines/1` (hoặc thực hiện `curl http://localhost:3000/deadlines/1`), toàn bộ tiêu đề bài tập, mô tả môn học, OpenGraph meta tags và thẻ dữ liệu cấu trúc JSON-LD đều **có sẵn 100% trong mã nguồn HTML ban đầu** do Server trả về (chứng minh không phải render trống rồi mới gọi AJAX phía client như CSR):
 
