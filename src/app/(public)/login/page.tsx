@@ -1,5 +1,8 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth';
 import LoginForm from '@/components/LoginForm';
 
 // SEO: Yêu cầu không lập chỉ mục cho trang /login
@@ -12,7 +15,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const session = await getServerSession(authOptions);
+
+  if (session) {
+    redirect(session.user?.role === 'admin' ? '/admin' : '/dashboard');
+  }
   return (
     <div
       style={{

@@ -5,6 +5,7 @@ import { ArrowRight, ChevronRight, BookOpen } from 'lucide-react';
 import { getSubjects, getDeadlines } from '@/lib/data';
 import { authOptions } from '@/lib/auth';
 import DeadlineCard from '@/components/DeadlineCard';
+import HomeHeroActions from '@/components/HomeHeroActions';
 
 // CHIẾN LƯỢC RENDER: SSG (Static Site Generation)
 export const dynamic = 'force-static';
@@ -61,22 +62,7 @@ export default async function HomePage() {
             Cổng thông tin mở cho phép sinh viên tra cứu hạn nộp bài tập lớn, bài kiểm tra và theo dõi tiến độ cá nhân.
           </p>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-            <Link href="/deadlines" className="btn btn-primary" id="home-view-deadlines-btn">
-              <span>Xem tất cả deadline ({deadlines.length})</span>
-              <ArrowRight size={14} />
-            </Link>
-
-            {!session ? (
-              <Link href="/login" className="btn btn-secondary" id="home-login-btn">
-                <span>Đăng nhập sinh viên</span>
-              </Link>
-            ) : (
-              <Link href="/dashboard" className="btn btn-secondary" id="home-dashboard-btn">
-                <span>Vào Dashboard của tôi</span>
-              </Link>
-            )}
-          </div>
+          <HomeHeroActions deadlinesCount={deadlines.length} />
         </div>
       </section>
 
