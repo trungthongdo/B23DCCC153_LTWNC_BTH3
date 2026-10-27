@@ -1,3 +1,4 @@
+import { describe, it, expect } from '@jest/globals';
 import { can, PERMISSION_MATRIX } from '../src/lib/permissions';
 import { Role, Action } from '../src/types';
 
@@ -78,6 +79,12 @@ describe('Permissions Matrix & can(role, action) Unit Tests', () => {
     it('should treat invalid or unrecognized role as guest', () => {
       expect(can('hacker' as unknown as Role, 'create_deadline')).toBe(false);
       expect(can('' as unknown as Role, 'delete_deadline')).toBe(false);
+    });
+
+    it('should return false for unrecognized action', () => {
+      expect(can('admin', 'unknown_action' as unknown as Action)).toBe(false);
+      expect(can('user', 'unknown_action' as unknown as Action)).toBe(false);
+      expect(can('guest', 'unknown_action' as unknown as Action)).toBe(false);
     });
   });
 });

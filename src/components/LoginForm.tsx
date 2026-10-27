@@ -35,15 +35,43 @@ export default function LoginForm() {
         router.refresh();
       }
     } catch (err: any) {
-      setError('Đã xảy ra lỗi kết nối, vui lòng thử lại.');
+      if (typeof window !== 'undefined' && window.location.port !== '3000') {
+        setError(`Bạn đang mở cổng ${window.location.port}. Máy chủ hiện tại đang chạy tại http://localhost:3000. Vui lòng chuyển sang http://localhost:3000/login.`);
+      } else {
+        setError('Đã xảy ra lỗi kết nối, vui lòng thử lại.');
+      }
       setLoading(false);
     }
   };
 
-  const fillQuickAccount = (accEmail: string, accPass: string) => {
+  const handleQuickLogin = async (accEmail: string, accPass: string) => {
     setEmail(accEmail);
     setPassword(accPass);
     setError('');
+    setLoading(true);
+
+    try {
+      const res = await signIn('credentials', {
+        redirect: false,
+        email: accEmail,
+        password: accPass,
+      });
+
+      if (res?.error) {
+        setError(res.error);
+        setLoading(false);
+      } else {
+        router.push(callbackUrl);
+        router.refresh();
+      }
+    } catch (err: any) {
+      if (typeof window !== 'undefined' && window.location.port !== '3000') {
+        setError(`Bạn đang mở cổng ${window.location.port}. Máy chủ hiện tại đang chạy tại http://localhost:3000. Vui lòng chuyển sang http://localhost:3000/login.`);
+      } else {
+        setError('Đã xảy ra lỗi kết nối, vui lòng thử lại.');
+      }
+      setLoading(false);
+    }
   };
 
   return (
@@ -161,23 +189,27 @@ export default function LoginForm() {
           <button
             type="button"
             id="fill-admin-btn"
-            onClick={() => fillQuickAccount('admin@ptit.edu.vn', 'admin123')}
+            disabled={loading}
+            onClick={() => handleQuickLogin('admin@ptit.edu.vn', 'admin123')}
             className="btn btn-secondary"
-            style={{ padding: '6px 8px', fontSize: '0.75rem', justifyContent: 'flex-start' }}
+            style={{ padding: '8px 10px', fontSize: '0.78rem', justifyContent: 'center', fontWeight: 500 }}
+            title="Đăng nhập ngay vai trò Lớp trưởng (admin123)"
           >
-            <Shield size={12} style={{ color: 'var(--ptit-red)' }} />
-            <span>Lớp trưởng</span>
+            <Shield size={14} style={{ color: 'var(--ptit-red)' }} />
+            <span>Lớp trưởng (1-Click)</span>
           </button>
 
           <button
             type="button"
             id="fill-student-btn"
-            onClick={() => fillQuickAccount('sv@ptit.edu.vn', 'sv123456')}
+            disabled={loading}
+            onClick={() => handleQuickLogin('sv@ptit.edu.vn', 'sv123456')}
             className="btn btn-secondary"
-            style={{ padding: '6px 8px', fontSize: '0.75rem', justifyContent: 'flex-start' }}
+            style={{ padding: '8px 10px', fontSize: '0.78rem', justifyContent: 'center', fontWeight: 500 }}
+            title="Đăng nhập ngay vai trò Sinh viên (sv123456)"
           >
-            <User size={12} style={{ color: 'var(--primary)' }} />
-            <span>Sinh viên</span>
+            <User size={14} style={{ color: 'var(--primary)' }} />
+            <span>Sinh viên (1-Click)</span>
           </button>
         </div>
       </div>
@@ -187,7 +219,13 @@ export default function LoginForm() {
         <button
           type="button"
           id="github-login-btn"
-          onClick={() => signIn('github', { callbackUrl })}
+          disabled={loading}
+          onClick={() => {
+            setError('');
+            signIn('github', { callbackUrl }).catch(() => {
+              setError('GitHub OAuth cần GITHUB_ID & GITHUB_SECRET trong file .env.local để hoạt động.');
+            });
+          }}
           className="btn btn-ghost"
           style={{
             width: '100%',
@@ -199,7 +237,7 @@ export default function LoginForm() {
           <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
           </svg>
-          <span>Đăng nhập GitHub (OAuth)</span>
+          <span>Đăng nhập GitHub (Điểm cộng OAuth)</span>
         </button>
       </div>
     </div>
